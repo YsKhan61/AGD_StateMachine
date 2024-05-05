@@ -1,25 +1,25 @@
-﻿using UnityEngine;
+﻿using StatePattern.StateMachine;
+using UnityEngine;
 
 namespace StatePattern.Enemy
 {
     public class PatrollingState : IState
     {
-        public OnePunchManController Owner { get; set; }
-        private OnePunchManStateMachine stateMachine;
-
+        public EnemyController Owner { get; set; }
+        private IStateMachine stateMachine;
         private int currentPatrollingIndex = -1;
         private Vector3 destination;
 
-        public PatrollingState(OnePunchManStateMachine stateMachine) => this.stateMachine = stateMachine;
+        public PatrollingState(IStateMachine stateMachine) => this.stateMachine = stateMachine;
 
-        public void OnStateEnter() 
+        public void OnStateEnter()
         {
             SetNextWaypointIndex();
             destination = GetDestination();
             MoveTowardsDestination();
         }
 
-        public void Update() 
+        public void Update()
         {
             if (ReachedDestination())
                 stateMachine.ChangeState(States.IDLE);
@@ -44,5 +44,6 @@ namespace StatePattern.Enemy
         }
 
         private bool ReachedDestination() => Owner.Agent.remainingDistance <= Owner.Agent.stoppingDistance;
+
     }
 }

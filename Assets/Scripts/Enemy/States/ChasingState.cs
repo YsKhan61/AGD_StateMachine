@@ -1,17 +1,18 @@
 ﻿using StatePattern.Main;
 using StatePattern.Player;
+using StatePattern.StateMachine;
+using System.Collections;
 using UnityEngine;
 
 namespace StatePattern.Enemy
 {
     public class ChasingState : IState
     {
-        public OnePunchManController Owner { get; set; }
-        private OnePunchManStateMachine stateMachine;
+        public EnemyController Owner { get; set; }
+        private IStateMachine stateMachine;
         private PlayerController target;
 
-
-        public ChasingState(OnePunchManStateMachine stateMachine) => this.stateMachine = stateMachine;
+        public ChasingState(IStateMachine stateMachine) => this.stateMachine = stateMachine;
 
         public void OnStateEnter()
         {
@@ -30,6 +31,7 @@ namespace StatePattern.Enemy
         }
 
         public void OnStateExit() => target = null;
+
 
         private void SetTarget() => target = GameService.Instance.PlayerService.GetPlayer();
 
