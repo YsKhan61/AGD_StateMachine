@@ -17,4 +17,5 @@ namespace StatePattern.StateMachine
         PATROLLING,
         CHASING
     }
+
 }
