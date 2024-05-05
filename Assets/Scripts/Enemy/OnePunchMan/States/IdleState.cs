@@ -18,7 +18,7 @@ namespace StatePattern.Enemy
         {
             timer -= Time.deltaTime;
             if (timer <= 0)
-                stateMachine.ChangeState(OnePunchManStates.ROTATING);
+                stateMachine.ChangeState(States.ROTATING);
         }
 
         public void OnStateExit() => timer = 0;

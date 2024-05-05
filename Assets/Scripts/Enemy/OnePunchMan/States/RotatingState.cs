@@ -18,7 +18,7 @@ namespace StatePattern.Enemy
         {
             Owner.SetRotation(CalculateRotation());
             if (IsRotationComplete())
-                stateMachine.ChangeState(OnePunchManStates.IDLE);
+                stateMachine.ChangeState(States.IDLE);
         }
 
         public void OnStateExit() => targetRotation = 0;
