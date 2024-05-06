@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 948247519368844738}
   - component: {fileID: 3773479111711626245}
   m_Layer: 0
-  m_Name: Robot Prefab
+  m_Name: CloneMan Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
