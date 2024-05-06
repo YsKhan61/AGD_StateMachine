@@ -3,6 +3,7 @@ using StatePattern.Main;
 using StatePattern.Sound;
 using StatePattern.UI;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace StatePattern.Enemy
@@ -85,7 +86,10 @@ namespace StatePattern.Enemy
             {
                 SoundService.PlaySoundEffects(Sound.SoundType.GAME_WON);
                 UIService.GameWon();
+                return;
             }
+
+            GameService.Instance.EventService.OnEnemyDead.InvokeEvent(deadEnemy.Position);
         }
 
         public void PlayerDied()

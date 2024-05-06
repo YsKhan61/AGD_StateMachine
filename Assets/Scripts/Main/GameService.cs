@@ -13,6 +13,7 @@ using StatePattern.Player;
 using System.Collections.Generic;
 using StatePattern.UI;
 using StatePattern.Events;
+using StatePattern.Coin;
 
 namespace StatePattern.Main
 {
@@ -24,6 +25,8 @@ namespace StatePattern.Main
         public LevelService LevelService { get; private set; }
         public PlayerService PlayerService { get; private set; }
         public EnemyService EnemyService { get; private set; }
+
+        public CoinService CoinService { get; private set; }
 
         [SerializeField] private UIService uiService;
         public UIService UIService => uiService;
@@ -37,6 +40,12 @@ namespace StatePattern.Main
         [SerializeField] private AudioSource sfxSource;
         [SerializeField] private AudioSource bgMusicSource;
 
+        // prefabs
+        [SerializeField] private CoinView coinPrefab;
+
+        [SerializeField] private LayerMask obstacleLayer;
+        public LayerMask ObstacleLayer => obstacleLayer;
+
         protected override void Awake()
         {
             base.Awake();
@@ -45,6 +54,7 @@ namespace StatePattern.Main
             LevelService = new LevelService(levelScriptableObjects);
             PlayerService = new PlayerService(playerScriptableObject);
             EnemyService = new EnemyService();
+            CoinService = new CoinService(coinPrefab);
         }
 
         private void Start() => UIService.ShowLevelSelectionUI(levelScriptableObjects.Count);
