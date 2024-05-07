@@ -43,8 +43,15 @@ namespace StatePattern.Main
         // prefabs
         [SerializeField] private CoinView coinPrefab;
 
+        /// layers
         [SerializeField] private LayerMask obstacleLayer;
         public LayerMask ObstacleLayer => obstacleLayer;
+
+        [SerializeField] private LayerMask playerLayer;
+        public LayerMask PlayerLayer => playerLayer;
+
+        [SerializeField] private LayerMask coinLayer;
+        public LayerMask CoinLayer => coinLayer;
 
         protected override void Awake()
         {

@@ -7,13 +7,29 @@ namespace StatePattern.Coin
 {
     public class CoinService
     {
+        /// <summary>
+        /// Maximum no of tries to spawn coins
+        /// </summary>
+        private const int MAX_TRIES = 30;
+
+        /// <summary>
+        /// Maximum no of coins to spawn
+        /// </summary>
+        private const int MAX_COINS = 4;
+
         private CoinView coinPrefab;
         private LayerMask obstacleLayer;
+        private LayerMask playerLayer;
+        private LayerMask coinLayer;
+        private Vector2 radiusRange = new Vector2(2f, 5f);
+        private int spawnCount = 0;
 
         public CoinService(CoinView coinPrefab)
         {
             this.coinPrefab = coinPrefab;
             obstacleLayer = GameService.Instance.ObstacleLayer;
+            playerLayer = GameService.Instance.PlayerLayer;
+            coinLayer = GameService.Instance.CoinLayer;
             GameService.Instance.EventService.OnEnemyDead.AddListener(OnEnemyDead);
         }
 
@@ -44,38 +60,41 @@ namespace StatePattern.Coin
         {
             positions = new List<Vector3>();
 
-            int maxTries = 10;
-            int maxCoins = 4;
-            int spawnCount = 0;
-            int radius = 4;
+            int tried = 0;
+            spawnCount = 0;
 
-            for (int i = 0; i < maxTries; i++)
+            for (int i = 0; i < MAX_TRIES; i++)
             {
+                tried++;
+
                 Vector2 random = Random.insideUnitCircle;
-                Vector3 position = center + new Vector3(random.x, 0, random.y) * radius;
+                Vector3 position = center + new Vector3(random.x, 0, random.y) * Random.Range(radiusRange.x, radiusRange.y);
                 if (IsPositionValid(position))
                 {
                     positions.Add(position);
                     spawnCount++;
                 }
 
-                if (spawnCount >= maxCoins)
+                if (spawnCount >= MAX_COINS)
                 {
                     break;
                 }
             }
+
+            Debug.Log("Tried " + tried + "times.");
 
             return positions.Count > 0;
         }
 
         private bool IsPositionValid(Vector3 position)
         {
-            Debug.Log("Coin position: " + position);
             Collider[] _ = new Collider[1];
-            if (Physics.OverlapSphereNonAlloc(position, 0.5f, _, obstacleLayer) > 0)
+
+            // combine all layers
+            LayerMask allLayers = obstacleLayer | playerLayer | coinLayer;
+
+            if (Physics.OverlapSphereNonAlloc(position, 0.5f, _, allLayers) > 0)
             {
-                // Debug.Log("Not valid");
-                // return false;
                 return false;
             }
 

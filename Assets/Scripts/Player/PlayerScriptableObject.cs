@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using StatePattern.Utilities;
+using System.Collections;
 using UnityEngine;
 
 namespace StatePattern.Player
@@ -12,6 +13,6 @@ namespace StatePattern.Player
         public float MovementSpeed;
         public float RotationSpeed;
         public int MaximumHealth;
-
+        public IntDataSO CurrentScore;
     }
 }

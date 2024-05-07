@@ -21,12 +21,18 @@ namespace StatePattern.UI
         [SerializeField] private GameplayUIView gameplayView;
         [SerializeField] private CameraShake cameraShake;
 
+        [Header("Score UI")]
+        [SerializeField] private ScoreUIView scoreUIView;
+
         private void Start()
         {
             levelSelectionController = new LevelSelectionUIController(levelSelectionView, levelButtonPrefab);
             levelEndController = new LevelEndUIController(levelEndView);
             gameplayController = new GameplayUIController(gameplayView);
             SubscribeToEvents();
+
+
+            scoreUIView.Show();
         }
 
         private void SubscribeToEvents() => GameService.Instance.EventService.OnLevelSelected.AddListener(ShowGameplayUI);
