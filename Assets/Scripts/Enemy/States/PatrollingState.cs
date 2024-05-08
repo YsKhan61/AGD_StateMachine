@@ -1,5 +1,4 @@
 ﻿using StatePattern.StateMachine;
-using System.Collections;
 using UnityEngine;
 
 namespace StatePattern.Enemy
@@ -22,6 +21,12 @@ namespace StatePattern.Enemy
 
         public void Update()
         {
+            if (Owner.IsTargetInView())
+            {
+                Owner.OnTargetInView();
+                return;
+            }
+
             if(ReachedDestination())
                 stateMachine.ChangeState(States.IDLE);
         }

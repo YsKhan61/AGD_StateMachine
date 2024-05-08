@@ -20,6 +20,7 @@ MonoBehaviour:
   MovementSpeed: 1.5
   MaximumHealth: 10
   RangeRadius: 6
+  FOV: 60
   IdleTime: 3
   RotationSpeed: 100
   RotationThreshold: 0.5

@@ -39,6 +39,10 @@ namespace StatePattern.Enemy
             stateMachine.ChangeState(States.CHASING);
         }
 
-        public override void PlayerExitedRange() => stateMachine.ChangeState(States.IDLE);
+        public override void PlayerExitedRange()
+        {
+            base.PlayerExitedRange();
+            stateMachine.ChangeState(States.IDLE);
+        }
     }
 }

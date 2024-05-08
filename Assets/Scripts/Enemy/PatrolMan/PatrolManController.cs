@@ -1,8 +1,6 @@
 using StatePattern.Player;
 using StatePattern.StateMachine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 
 namespace StatePattern.Enemy
 {
@@ -17,22 +15,42 @@ namespace StatePattern.Enemy
             stateMachine.ChangeState(States.IDLE);
         }
 
-        private void CreateStateMachine() => stateMachine = new PatrolManStateMachine(this);
-
         public override void UpdateEnemy()
         {
             if (currentState == EnemyState.DEACTIVE)
                 return;
 
             stateMachine.Update();
+
+            enemyView.LogDebug($"Current State: {stateMachine.GetCurrentState()}");
         }
 
         public override void PlayerEnteredRange(PlayerController targetToSet)
         {
             base.PlayerEnteredRange(targetToSet);
+        }
+
+        public override void PlayerExitedRange()
+        {
+            base.PlayerExitedRange();
+            stateMachine.ChangeState(States.IDLE);
+        }
+
+        public override void OnTargetInView()
+        {
             stateMachine.ChangeState(States.CHASING);
         }
 
-        public override void PlayerExitedRange() => stateMachine.ChangeState(States.IDLE);
+        public override void OnTargetNotInView()
+        {
+            stateMachine.ChangeState(States.IDLE);
+        }
+
+        public override void OnIdleStateComplete()
+        {
+            stateMachine.ChangeState(States.PATROLLING);
+        }
+
+        private void CreateStateMachine() => stateMachine = new PatrolManStateMachine(this);
     }
 }

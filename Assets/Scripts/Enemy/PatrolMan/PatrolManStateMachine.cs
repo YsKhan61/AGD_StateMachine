@@ -6,6 +6,8 @@ namespace StatePattern.Enemy
 {
     public class PatrolManStateMachine : GenericStateMachine<PatrolManController>
     {
+        public string CurrentStateName => currentState.ToString();
+
         public PatrolManStateMachine(PatrolManController Owner) : base(Owner)
         {
             this.Owner = Owner;

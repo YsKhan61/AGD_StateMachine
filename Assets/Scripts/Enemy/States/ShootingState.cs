@@ -22,6 +22,12 @@ namespace StatePattern.Enemy
 
         public void Update()
         {
+            if (!Owner.IsTargetInView())
+            {
+                Owner.OnTargetNotInView();
+                return;
+            }
+
             Quaternion desiredRotation = CalculateRotationTowardsPlayer();
             Owner.SetRotation(RotateTowards(desiredRotation));
 

@@ -11,6 +11,8 @@ namespace StatePattern.StateMachine
 
         public GenericStateMachine(T Owner) => this.Owner = Owner;
 
+        public IState GetCurrentState() => currentState;
+
         public void Update() => currentState?.Update();
 
         protected void ChangeState(IState newState)

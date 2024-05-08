@@ -18,6 +18,12 @@ namespace StatePattern.Enemy
         public Quaternion Rotation => enemyView.transform.rotation;
         public Vector3 Position => enemyView.transform.position;
 
+        protected PlayerController playerInRange;
+
+        /// <summary>
+        /// The layer to search for obstacles between player and enemy
+        /// </summary>
+        private LayerMask raycastLayer;
 
         public EnemyController(EnemyScriptableObject enemyScriptableObject)
         {
@@ -38,6 +44,7 @@ namespace StatePattern.Enemy
         {
             SetState(EnemyState.ACTIVE);
             currentHealth = enemyScriptableObject.MaximumHealth;
+            raycastLayer = GameService.Instance.ObstacleLayer | GameService.Instance.PlayerLayer;
         }
 
         public void InitializeAgent()
@@ -72,11 +79,80 @@ namespace StatePattern.Enemy
 
         public void SetState(EnemyState stateToSet) => currentState = stateToSet;
 
-        public virtual void PlayerEnteredRange(PlayerController targetToSet) => GameService.Instance.SoundService.PlaySoundEffects(Sound.SoundType.ENEMY_ALERT);
+        public virtual void PlayerEnteredRange(PlayerController targetToSet)
+        {
+            playerInRange = targetToSet;
+            GameService.Instance.SoundService.PlaySoundEffects(Sound.SoundType.ENEMY_ALERT);
+        }
 
-        public virtual void PlayerExitedRange() { }
+        public virtual void PlayerExitedRange() 
+        {
+            playerInRange = null;
+        }
 
         public virtual void UpdateEnemy() { }
+
+        public bool IsTargetInView()
+        {
+            if (playerInRange == null)
+                return false;
+
+            // try a capsule cast from enemy to player to check if there is any obstacle in between
+            RaycastHit hit;
+            bool isHit = Physics.CapsuleCast(
+                enemyView.transform.position,
+                enemyView.transform.position + enemyView.transform.forward * 0.1f,  // capsule cast height
+                0.2f,       // capsule cast radius 
+                playerInRange.Position - enemyView.transform.position, 
+                out hit, 
+                enemyScriptableObject.RangeRadius, 
+                raycastLayer);
+
+            if (!isHit)
+            {
+                return false;
+            }
+
+            if ((1 << hit.collider.gameObject.layer) != GameService.Instance.PlayerLayer)
+            {
+                return false;
+            }
+
+            Vector3 direction = (playerInRange.Position - enemyView.transform.position).normalized;
+            float angle = Vector3.Angle(direction, enemyView.transform.forward);
+
+            return angle < enemyScriptableObject.FOV;
+        }
+
+        public virtual void OnTargetInView() { }
+
+        public virtual void OnTargetNotInView() { }
+
+        public virtual void OnIdleStateComplete() { }
+
+        public void DrawGizmos()
+        {
+            DrawDetectableRange();
+            DrawPlayerDetectionWithRaycast();
+
+            void DrawDetectableRange()
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(enemyView.transform.position, enemyScriptableObject.RangeRadius);
+            }
+
+            void DrawPlayerDetectionWithRaycast()
+            {
+                if (playerInRange == null)
+                    return;
+
+                Gizmos.color = Color.green;
+                Gizmos.DrawRay(
+                    enemyView.transform.position,
+                    (playerInRange.Position - enemyView.transform.position).normalized
+                    * enemyScriptableObject.RangeRadius);
+            }
+        }
     }
 
     public enum EnemyState

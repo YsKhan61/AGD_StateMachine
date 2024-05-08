@@ -15,6 +15,12 @@ namespace StatePattern.Enemy
 
         public void Update()
         {
+            if (Owner.IsTargetInView())
+            {
+                Owner.OnTargetInView();
+                return;
+            }
+
             Owner.SetRotation(CalculateRotation());
             if (IsRotationComplete())
                 stateMachine.ChangeState(States.IDLE);

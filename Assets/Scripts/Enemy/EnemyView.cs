@@ -1,8 +1,6 @@
-﻿using StatePattern.Main;
-using StatePattern.Player;
+﻿using StatePattern.Player;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,6 +16,10 @@ namespace StatePattern.Enemy
         [SerializeField] private ParticleSystem muzzleFlash;
         [SerializeField] private List<EnemyColor> enemyColors;
         [SerializeField] private GameObject bloodStain;
+
+        [Header("Debug Only")]
+        [SerializeField, TextArea(5, 5)]
+        private string debugMessage;
 
         private void Start()
         {
@@ -47,14 +49,14 @@ namespace StatePattern.Enemy
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.GetComponent<PlayerView>() != null && !other.isTrigger)
-                Controller.PlayerEnteredRange(other.GetComponent<PlayerView>().Controller);
+            if (!other.isTrigger || !other.TryGetComponent(out PlayerView playerView)) return;
+            Controller.PlayerEnteredRange(playerView.Controller);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.GetComponent<PlayerView>() != null && !other.isTrigger)
-                Controller.PlayerExitedRange();
+            if (!other.isTrigger || !other.TryGetComponent(out PlayerView playerView)) return;
+            Controller.PlayerExitedRange();
         }
 
         public void Destroy() => StartCoroutine(EnemyDeathSequence());
@@ -83,6 +85,13 @@ namespace StatePattern.Enemy
             
             enemyColors.Remove(enemyColors.Find(item => item.Type == EnemyColorType.Default));
             enemyColors.Add(coloToSetAsDefault);
+        }
+
+        public void LogDebug(string message) => debugMessage = message;
+
+        private void OnDrawGizmos()
+        {
+            Controller.DrawGizmos();
         }
     }
 

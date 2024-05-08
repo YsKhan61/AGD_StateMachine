@@ -1,7 +1,4 @@
-using UnityEngine;
 using StatePattern.StateMachine;
-using StatePattern.Enemy.Bullet;
-using StatePattern.Main;
 using StatePattern.Player;
 
 namespace StatePattern.Enemy
@@ -17,22 +14,42 @@ namespace StatePattern.Enemy
             stateMachine.ChangeState(States.IDLE);
         }
 
-        private void CreateStateMachine() => stateMachine = new OnePunchManStateMachine(this);
-
         public override void UpdateEnemy()
         {
             if (currentState == EnemyState.DEACTIVE)
                 return;
 
             stateMachine.Update();
+
+            enemyView.LogDebug($"Current State: {stateMachine.GetCurrentState()}");
         }
 
         public override void PlayerEnteredRange(PlayerController targetToSet)
         {
             base.PlayerEnteredRange(targetToSet);
+        }
+
+        public override void PlayerExitedRange()
+        {
+            base.PlayerExitedRange();
+            stateMachine.ChangeState(States.IDLE);
+        }
+
+        public override void OnTargetInView()
+        {
             stateMachine.ChangeState(States.SHOOTING);
         }
 
-        public override void PlayerExitedRange() => stateMachine.ChangeState(States.IDLE);
+        public override void OnTargetNotInView()
+        {
+            stateMachine.ChangeState(States.IDLE);
+        }
+
+        public override void OnIdleStateComplete()
+        {
+            stateMachine.ChangeState(States.ROTATING);
+        }
+
+        private void CreateStateMachine() => stateMachine = new OnePunchManStateMachine(this);
     }
 }
