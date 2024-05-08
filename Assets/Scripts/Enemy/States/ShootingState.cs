@@ -3,6 +3,7 @@ using StatePattern.Player;
 using StatePattern.StateMachine;
 using UnityEngine;
 
+
 namespace StatePattern.Enemy
 {
     public class ShootingState<T> : IState where T : EnemyController

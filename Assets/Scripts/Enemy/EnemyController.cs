@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 namespace StatePattern.Enemy
 {
-    public class EnemyController
+    public abstract class EnemyController
     {
         protected EnemyScriptableObject enemyScriptableObject;
         protected EnemyView enemyView;
@@ -90,7 +90,7 @@ namespace StatePattern.Enemy
             playerInRange = null;
         }
 
-        public virtual void UpdateEnemy() { }
+        public abstract void UpdateEnemy();
 
         public bool IsTargetInView()
         {
@@ -124,11 +124,11 @@ namespace StatePattern.Enemy
             return angle < enemyScriptableObject.FOV;
         }
 
-        public virtual void OnTargetInView() { }
+        public abstract void OnTargetInView();
 
-        public virtual void OnTargetNotInView() { }
+        public abstract void OnTargetNotInView();
 
-        public virtual void OnIdleStateComplete() { }
+        public abstract void OnIdleStateComplete();
 
         public void DrawGizmos()
         {

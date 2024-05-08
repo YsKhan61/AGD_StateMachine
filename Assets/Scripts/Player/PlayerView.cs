@@ -1,7 +1,6 @@
 ﻿using StatePattern.Enemy;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 namespace StatePattern.Player
 {

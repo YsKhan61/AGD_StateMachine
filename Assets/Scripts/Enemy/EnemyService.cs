@@ -3,8 +3,8 @@ using StatePattern.Main;
 using StatePattern.Sound;
 using StatePattern.UI;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+
 
 namespace StatePattern.Enemy
 {
@@ -51,7 +51,7 @@ namespace StatePattern.Enemy
 
         public EnemyController CreateEnemy(EnemyScriptableObject enemyScriptableObject)
         {
-            EnemyController enemy;
+            EnemyController enemy = null;
 
             switch (enemyScriptableObject.Type)
             {
@@ -68,7 +68,7 @@ namespace StatePattern.Enemy
                     enemy = new RobotController(enemyScriptableObject);
                     break;
                 default:
-                    enemy = new EnemyController(enemyScriptableObject);
+                    Debug.LogError("Enemy Type not found");
                     break;
             }
 

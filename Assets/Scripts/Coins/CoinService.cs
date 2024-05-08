@@ -80,9 +80,6 @@ namespace StatePattern.Coin
                     break;
                 }
             }
-
-            Debug.Log("Tried " + tried + "times.");
-
             return positions.Count > 0;
         }
 

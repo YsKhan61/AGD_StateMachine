@@ -1,6 +1,6 @@
 ﻿using StatePattern.Utilities;
-using System.Collections;
 using UnityEngine;
+
 
 namespace StatePattern.Player
 {

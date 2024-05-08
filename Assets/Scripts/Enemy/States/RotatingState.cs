@@ -1,6 +1,7 @@
 using StatePattern.StateMachine;
 using UnityEngine;
 
+
 namespace StatePattern.Enemy
 {
     public class RotatingState<T> : IState where T : EnemyController
