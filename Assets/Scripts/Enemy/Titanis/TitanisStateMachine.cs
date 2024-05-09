@@ -16,7 +16,7 @@ namespace StatePattern.Enemy
         {
             States.Add(State.IDLE, new IdleState<TitanisController>(this));
             States.Add(State.ROARING, new RoaringState<TitanisController>(this));
-            States.Add(State.SHOOTING, new ShootingState<TitanisController>(this));
+            States.Add(State.CHARGE_ATTACK, new ChargeAttackState<TitanisController>(this));
         }
     }
 }

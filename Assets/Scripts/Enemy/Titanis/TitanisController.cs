@@ -1,4 +1,5 @@
 using StatePattern.StateMachine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace StatePattern.Enemy
 {
@@ -15,7 +16,14 @@ namespace StatePattern.Enemy
 
         public override void OnIdleStateComplete()
         {
-            stateMachine.ChangeState(StateMachine.State.IDLE);
+            if (IsTargetInView())
+            {
+                stateMachine.ChangeState(State.ROARING);
+            }
+            else
+            {
+                stateMachine.ChangeState(State.IDLE);
+            }
         }
 
         public override void OnTargetInView()
@@ -36,6 +44,18 @@ namespace StatePattern.Enemy
             stateMachine.Update();
 
             enemyView.LogDebug($"Current State: {stateMachine.GetCurrentState()}");
+        }
+
+        public override void OnRoaringStateComplete()
+        {
+            if (IsTargetInView())
+            {
+                stateMachine.ChangeState(State.CHARGE_ATTACK);
+            }
+            else
+            {
+                stateMachine.ChangeState(State.IDLE);
+            }
         }
 
         private void CreateStateMachine() => stateMachine = new TitanisStateMachine(this);

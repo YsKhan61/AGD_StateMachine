@@ -34,15 +34,7 @@ namespace StatePattern.Enemy
         {
             if (timeElapsed >= DURATION)
             {
-                if (Owner.IsTargetInView())
-                {
-                    stateMachine.ChangeState(State.SHOOTING);
-                }
-                else
-                {
-                    stateMachine.ChangeState(State.IDLE);
-                }
-
+                Owner.OnRoaringStateComplete();
                 return;
             }
 

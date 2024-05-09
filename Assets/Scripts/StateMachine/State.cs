@@ -9,6 +9,7 @@ namespace StatePattern.StateMachine
         CHASING,
         TELEPORTING,
         CLONING,
-        ROARING
+        ROARING,
+        CHARGE_ATTACK
     }
 }

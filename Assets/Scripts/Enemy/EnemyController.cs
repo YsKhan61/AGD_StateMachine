@@ -17,6 +17,7 @@ namespace StatePattern.Enemy
         public EnemyScriptableObject Data => enemyScriptableObject;
         public Quaternion Rotation => enemyView.transform.rotation;
         public Vector3 Position => enemyView.transform.position;
+        public Transform Transform => enemyView.transform;
 
         protected PlayerController playerInRange;
 
@@ -74,7 +75,7 @@ namespace StatePattern.Enemy
         {
             enemyView.PlayShootingEffect();
             GameService.Instance.SoundService.PlaySoundEffects(Sound.SoundType.ENEMY_SHOOT);
-            BulletController bullet = new BulletController(enemyView.transform, enemyScriptableObject.BulletData);
+            new BulletController(enemyView.transform, enemyScriptableObject.BulletData);
         }
 
         public void SetState(EnemyState stateToSet) => currentState = stateToSet;
@@ -133,6 +134,11 @@ namespace StatePattern.Enemy
         /// This is virtual, as not all enemy need to implement this method (those who don't have Idle State).
         /// </summary>
         public virtual void OnIdleStateComplete() { }
+
+        public virtual void OnRoaringStateComplete()
+        {
+
+        }
 
         public void DrawGizmos()
         {
