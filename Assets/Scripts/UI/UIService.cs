@@ -24,14 +24,16 @@ namespace StatePattern.UI
         [Header("Score UI")]
         [SerializeField] private ScoreUIView scoreUIView;
 
-        private void Start()
+        private void Awake()
         {
             levelSelectionController = new LevelSelectionUIController(levelSelectionView, levelButtonPrefab);
             levelEndController = new LevelEndUIController(levelEndView);
             gameplayController = new GameplayUIController(gameplayView);
+        }
+
+        private void Start()
+        {
             SubscribeToEvents();
-
-
             scoreUIView.Show();
         }
 

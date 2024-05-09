@@ -91,7 +91,7 @@ namespace StatePattern.Enemy
 
         private void OnDrawGizmos()
         {
-            Controller.DrawGizmos();
+            Controller?.DrawGizmos();
         }
     }
 

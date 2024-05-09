@@ -14,12 +14,12 @@ namespace StatePattern.Enemy
 
         private void CreateStates()
         {
-            States.Add(StateMachine.States.IDLE, new IdleState<RobotController>(this));
-            States.Add(StateMachine.States.PATROLLING, new PatrollingState<RobotController>(this));
-            States.Add(StateMachine.States.CHASING, new ChasingState<RobotController>(this));
-            States.Add(StateMachine.States.SHOOTING, new ShootingState<RobotController>(this));
-            States.Add(StateMachine.States.TELEPORTING, new TeleportingState<RobotController>(this));
-            States.Add(StateMachine.States.CLONING, new CloningState<RobotController>(this));
+            States.Add(StateMachine.State.IDLE, new IdleState<RobotController>(this));
+            States.Add(StateMachine.State.PATROLLING, new PatrollingState<RobotController>(this));
+            States.Add(StateMachine.State.CHASING, new ChasingState<RobotController>(this));
+            States.Add(StateMachine.State.SHOOTING, new ShootingState<RobotController>(this));
+            States.Add(StateMachine.State.TELEPORTING, new TeleportingState<RobotController>(this));
+            States.Add(StateMachine.State.CLONING, new CloningState<RobotController>(this));
         }
     }
 }

@@ -13,11 +13,14 @@ namespace StatePattern.Events
         public EventController<Vector3> OnEnemyDead { get; private set; }
         public EventController<int> OnCoinCollected { get; private set; }
 
+        public EventController<int> OnEnemyRoar { get; private set; }
+
         public EventService()
         {
             OnLevelSelected = new EventController<int>();
             OnEnemyDead = new EventController<Vector3>();
             OnCoinCollected = new EventController<int>();
+            OnEnemyRoar = new EventController<int>();
         }
     }
 }

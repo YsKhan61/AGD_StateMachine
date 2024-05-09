@@ -20,6 +20,8 @@ namespace StatePattern.Player
         public SoundService SoundService => GameService.Instance.SoundService;
         public EnemyService EnemyService => GameService.Instance.EnemyService;
 
+        private float moveSpeedMultiplier = 1f;
+
         public PlayerController(PlayerScriptableObject playerScriptableObject)
         {
             this.playerScriptableObject = playerScriptableObject;
@@ -82,7 +84,7 @@ namespace StatePattern.Player
 
         private Vector3 GetMovementVector(Vector3 movementDirection) => Quaternion.Euler(0f, Camera.main.transform.eulerAngles.y, 0f) * movementDirection;
 
-        private Vector3 GetPositionToMoveAt(Vector3 moveVector) => playerView.Rigidbody.position + moveVector * playerScriptableObject.MovementSpeed * Time.deltaTime;
+        private Vector3 GetPositionToMoveAt(Vector3 moveVector) => playerView.Rigidbody.position + moveVector * playerScriptableObject.MovementSpeed * Time.deltaTime * moveSpeedMultiplier;
 
         private void UpdateAttack()
         {
@@ -124,5 +126,7 @@ namespace StatePattern.Player
         public void AddEnemy(EnemyController enemy) => enemiesInRange.Add(enemy);
             
         public void RemoveEnemy(EnemyController enemy) => enemiesInRange.Remove(enemy);
+
+        public void ModifiyMovementSpeed(float multiplier) => moveSpeedMultiplier = multiplier;
     }
 }

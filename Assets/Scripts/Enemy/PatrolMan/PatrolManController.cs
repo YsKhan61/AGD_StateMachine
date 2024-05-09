@@ -12,7 +12,7 @@ namespace StatePattern.Enemy
         {
             enemyView.SetController(this);
             CreateStateMachine();
-            stateMachine.ChangeState(States.IDLE);
+            stateMachine.ChangeState(State.IDLE);
         }
 
         public override void UpdateEnemy()
@@ -33,22 +33,22 @@ namespace StatePattern.Enemy
         public override void PlayerExitedRange()
         {
             base.PlayerExitedRange();
-            stateMachine.ChangeState(States.IDLE);
+            stateMachine.ChangeState(State.IDLE);
         }
 
         public override void OnTargetInView()
         {
-            stateMachine.ChangeState(States.CHASING);
+            stateMachine.ChangeState(State.CHASING);
         }
 
         public override void OnTargetNotInView()
         {
-            stateMachine.ChangeState(States.IDLE);
+            stateMachine.ChangeState(State.IDLE);
         }
 
         public override void OnIdleStateComplete()
         {
-            stateMachine.ChangeState(States.PATROLLING);
+            stateMachine.ChangeState(State.PATROLLING);
         }
 
         private void CreateStateMachine() => stateMachine = new PatrolManStateMachine(this);

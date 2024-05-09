@@ -14,9 +14,9 @@ namespace StatePattern.Enemy
 
         private void CreateStates()
         {
-            States.Add(StateMachine.States.IDLE, new IdleState<OnePunchManController>(this));
-            States.Add(StateMachine.States.ROTATING, new RotatingState<OnePunchManController>(this));
-            States.Add(StateMachine.States.SHOOTING, new ShootingState<OnePunchManController>(this));
+            States.Add(StateMachine.State.IDLE, new IdleState<OnePunchManController>(this));
+            States.Add(StateMachine.State.ROTATING, new RotatingState<OnePunchManController>(this));
+            States.Add(StateMachine.State.SHOOTING, new ShootingState<OnePunchManController>(this));
         }
     }
 }

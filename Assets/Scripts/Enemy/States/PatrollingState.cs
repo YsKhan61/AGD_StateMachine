@@ -28,7 +28,7 @@ namespace StatePattern.Enemy
             }
 
             if(ReachedDestination())
-                stateMachine.ChangeState(States.IDLE);
+                stateMachine.ChangeState(State.IDLE);
         }
 
         public void OnStateExit() { }

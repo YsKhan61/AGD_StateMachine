@@ -128,7 +128,11 @@ namespace StatePattern.Enemy
 
         public abstract void OnTargetNotInView();
 
-        public abstract void OnIdleStateComplete();
+        /// <summary>
+        /// This method is called when the enemy finishes the idle state
+        /// This is virtual, as not all enemy need to implement this method (those who don't have Idle State).
+        /// </summary>
+        public virtual void OnIdleStateComplete() { }
 
         public void DrawGizmos()
         {

@@ -67,6 +67,9 @@ namespace StatePattern.Enemy
                 case EnemyType.Robot:
                     enemy = new RobotController(enemyScriptableObject);
                     break;
+                case EnemyType.Titanis:
+                    enemy = new TitanisController(enemyScriptableObject);
+                    break;
                 default:
                     Debug.LogError("Enemy Type not found");
                     break;

@@ -15,7 +15,7 @@ namespace StatePattern.Enemy
             enemyView.SetController(this);
             ChangeColor(EnemyColorType.Default);
             CreateStateMachine();
-            stateMachine.ChangeState(States.IDLE);
+            stateMachine.ChangeState(State.IDLE);
         }
 
         public void SetCloneCount(int cloneCountToSet) => CloneCountLeft = cloneCountToSet;
@@ -39,32 +39,32 @@ namespace StatePattern.Enemy
         public override void PlayerExitedRange()
         {
             base.PlayerExitedRange();
-            stateMachine.ChangeState(States.IDLE);
+            stateMachine.ChangeState(State.IDLE);
         }
 
         public override void OnTargetInView()
         {
-            stateMachine.ChangeState(States.CHASING);
+            stateMachine.ChangeState(State.CHASING);
         }
 
         public override void OnTargetNotInView()
         {
-            stateMachine.ChangeState(States.IDLE);
+            stateMachine.ChangeState(State.IDLE);
         }
 
         public override void OnIdleStateComplete()
         {
-            stateMachine.ChangeState(States.PATROLLING);
+            stateMachine.ChangeState(State.PATROLLING);
         }
 
         public override void Die()
         {
             if (CloneCountLeft > 0)
-                stateMachine.ChangeState(States.CLONING);
+                stateMachine.ChangeState(State.CLONING);
             base.Die();
         }
 
-        public void Teleport() => stateMachine.ChangeState(States.TELEPORTING);
+        public void Teleport() => stateMachine.ChangeState(State.TELEPORTING);
 
         public void SetDefaultColor(EnemyColorType colorType) => enemyView.SetDefaultColor(colorType);
 

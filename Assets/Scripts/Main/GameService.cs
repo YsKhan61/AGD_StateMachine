@@ -17,6 +17,7 @@ using StatePattern.Coin;
 
 namespace StatePattern.Main
 {
+    [DefaultExecutionOrder(-1000)]
     public class GameService : GenericMonoSingleton<GameService>
     {
         // Services:

@@ -1,3 +1,4 @@
+using StatePattern.Main;
 using System.Collections;
 using UnityEngine;
 
@@ -10,6 +11,16 @@ public class CameraShake : MonoBehaviour
     private Vector3 originalPosition;
 
     void Start() => cameraTransform = transform;
+
+    private void OnEnable()
+    {
+        GameService.Instance.EventService.OnEnemyRoar.AddListener(OnEnemyRoar);
+    }
+
+    private void OnDisable()
+    {
+        GameService.Instance.EventService.OnEnemyRoar.RemoveListener(OnEnemyRoar);
+    }
 
     public void ShakeCamera()
     {
@@ -32,5 +43,10 @@ public class CameraShake : MonoBehaviour
         }
 
         cameraTransform.localPosition = originalPosition;
+    }
+
+    private void OnEnemyRoar(int _)
+    {
+        ShakeCamera();
     }
 }

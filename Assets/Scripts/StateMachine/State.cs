@@ -1,6 +1,6 @@
 namespace StatePattern.StateMachine
 {
-    public enum States
+    public enum State
     {
         IDLE,
         ROTATING,
@@ -8,6 +8,7 @@ namespace StatePattern.StateMachine
         PATROLLING,
         CHASING,
         TELEPORTING,
-        CLONING
+        CLONING,
+        ROARING
     }
 }

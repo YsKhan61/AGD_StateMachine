@@ -31,7 +31,7 @@ namespace StatePattern.Enemy
             if (ReachedTarget())
             {
                 ResetPath();
-                stateMachine.ChangeState(States.SHOOTING);
+                stateMachine.ChangeState(State.SHOOTING);
             }
         }
 
