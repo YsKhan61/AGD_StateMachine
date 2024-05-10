@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelID: 3
   EnemyPrefab: {fileID: 4539706903899474985, guid: d2b6b570700801d42a12b29943b0a629, type: 3}
+  HealthBarPrefab: {fileID: 1551359130555233663, guid: b4c7b518d5a2204449b5961ad5d26c21, type: 3}
   Type: 2
   SpawnPosition: {x: 8, y: 1.5, z: 14}
   SpawnRotation: {x: 0, y: -90, z: 0}

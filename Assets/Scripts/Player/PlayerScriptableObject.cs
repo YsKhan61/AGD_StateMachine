@@ -13,6 +13,7 @@ namespace StatePattern.Player
         public float MovementSpeed;
         public float RotationSpeed;
         public int MaximumHealth;
+        public int AttackValue;
         public IntDataSO CurrentScore;
     }
 }

@@ -2,12 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations;
+using UnityEngine.UI;
 
 namespace StatePattern.Enemy
 {
+    [System.Serializable]
+    public struct EnemyColor
+    {
+        public EnemyColorType Type;
+        public Color Color;
+    }
+
+    public enum EnemyColorType
+    {
+        Default,
+        Vulnerable,
+        Clone
+    }
+
     public class EnemyView : MonoBehaviour
     {
-        
         [SerializeField] private EnemyTriggerBehaviour triggerBehaviour;
         [SerializeField] public NavMeshAgent Agent;
         [SerializeField] private SpriteRenderer enemyGraphic;
@@ -19,6 +34,7 @@ namespace StatePattern.Enemy
         private SphereCollider rangeTriggerCollider;
 
         public EnemyController Controller { get; private set; }
+        private Slider healthBar;
 
         [Header("Debug Only")]
         [SerializeField, TextArea(5, 5)]
@@ -26,14 +42,27 @@ namespace StatePattern.Enemy
 
         private void Start()
         {
+
             rangeTriggerCollider = GetComponent<SphereCollider>();
             Controller?.InitializeAgent();
         }
+
+        private void Update() => Controller?.UpdateEnemy();
 
         public void SetController(EnemyController controllerToSet)
         {
             Controller = controllerToSet;
             triggerBehaviour.SetController(controllerToSet);        // considering every trigger 
+        }
+
+        public void InitializeHealthBar(GameObject healthBarToSet)
+        {
+            GameObject healthBarParent = Instantiate(healthBarToSet);
+            healthBar = healthBarParent.GetComponentInChildren<Slider>();
+            PositionConstraint constraint = healthBarParent.AddComponent<PositionConstraint>();
+            constraint.AddSource(new ConstraintSource { sourceTransform = transform, weight = 1 });
+            constraint.translationOffset = new Vector3(0, 1, 2.5f);
+            constraint.constraintActive = true;
         }
 
         public void SetTriggerRadius(float radiusToSet)
@@ -42,31 +71,27 @@ namespace StatePattern.Enemy
             SetRangeImageRadius(radiusToSet);
         }
 
-        private void SetRangeColliderRadius(float radiusToSet)
-        {
-            if (rangeTriggerCollider != null)
-                rangeTriggerCollider.radius = radiusToSet;
-        }
-
-        private void SetRangeImageRadius(float radiusToSet) => detectableRange.transform.localScale = new Vector3(radiusToSet, radiusToSet, 1);
-
         public void PlayShootingEffect() => muzzleFlash.Play();
 
-        private void Update() => Controller?.UpdateEnemy();
+        public void Destroy() => StartCoroutine(EnemyDeathSequence());
 
-        /*private void OnTriggerEnter(Collider other)
+        public void ChangeColor(EnemyColorType colorType) => enemyGraphic.color = enemyColors.Find(item => item.Type == colorType).Color;
+
+        public void SetDefaultColor(EnemyColorType colorType)
         {
-            if (!other.isTrigger || !other.TryGetComponent(out PlayerView playerView)) return;
-            Controller.PlayerEnteredRange(playerView.Controller);
+            EnemyColor coloToSetAsDefault = new EnemyColor();
+            coloToSetAsDefault.Type = EnemyColorType.Default;
+            coloToSetAsDefault.Color = enemyColors.Find(item => item.Type == colorType).Color;
+
+            enemyColors.Remove(enemyColors.Find(item => item.Type == EnemyColorType.Default));
+            enemyColors.Add(coloToSetAsDefault);
         }
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (!other.isTrigger || !other.TryGetComponent(out PlayerView playerView)) return;
-            Controller.PlayerExitedRange();
-        }*/
+        public void UpdateHealthBar(float healthPercentage) => healthBar.value = healthPercentage;
 
-        public void Destroy() => StartCoroutine(EnemyDeathSequence());
+        public void LogDebug(string message) => debugMessage = message;
+
+        private void SetRangeImageRadius(float radiusToSet) => detectableRange.transform.localScale = new Vector3(radiusToSet, radiusToSet, 1);
 
         private IEnumerator EnemyDeathSequence()
         {
@@ -82,37 +107,12 @@ namespace StatePattern.Enemy
             Destroy(gameObject);
         }
 
-        public void ChangeColor(EnemyColorType colorType) => enemyGraphic.color = enemyColors.Find(item => item.Type == colorType).Color;
-
-        public void SetDefaultColor(EnemyColorType colorType)
+        private void SetRangeColliderRadius(float radiusToSet)
         {
-            EnemyColor coloToSetAsDefault = new EnemyColor();
-            coloToSetAsDefault.Type = EnemyColorType.Default;
-            coloToSetAsDefault.Color = enemyColors.Find(item => item.Type == colorType).Color;
-            
-            enemyColors.Remove(enemyColors.Find(item => item.Type == EnemyColorType.Default));
-            enemyColors.Add(coloToSetAsDefault);
+            if (rangeTriggerCollider != null)
+                rangeTriggerCollider.radius = radiusToSet;
         }
 
-        public void LogDebug(string message) => debugMessage = message;
-
-        private void OnDrawGizmos()
-        {
-            Controller?.DrawGizmos();
-        }
-    }
-
-    [System.Serializable]
-    public struct EnemyColor
-    {
-        public EnemyColorType Type;
-        public Color Color;
-    }
-
-    public enum EnemyColorType
-    {
-        Default,
-        Vulnerable,
-        Clone
+        private void OnDrawGizmos() => Controller?.DrawGizmos();
     }
 }

@@ -18,4 +18,5 @@ MonoBehaviour:
   MovementSpeed: 5
   RotationSpeed: 500
   MaximumHealth: 100
+  AttackValue: 10
   CurrentScore: {fileID: 11400000, guid: 46d6c3962654e75428ea60314567f376, type: 2}

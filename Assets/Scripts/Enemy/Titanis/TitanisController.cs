@@ -46,6 +46,15 @@ namespace StatePattern.Enemy
             enemyView.LogDebug($"Current State: {stateMachine.GetCurrentState()}");
         }
 
+        public override void TakeDamage(int damage)
+        {
+            base.TakeDamage(damage);
+            if (currentState == EnemyState.DEACTIVE)
+                return;
+
+            stateMachine.ChangeState(State.NO_DAMAGE);
+        }
+
         public override void OnRotatingStateComplete()
         {
             stateMachine.ChangeState(State.IDLE);
@@ -61,6 +70,16 @@ namespace StatePattern.Enemy
             {
                 stateMachine.ChangeState(State.IDLE);
             }
+        }
+
+        public override void OnNoDamageStateComplete()
+        {
+            stateMachine.ChangeState(State.TELEPORTING);
+        }
+
+        public override void OnTeleportingStateComplete()
+        {
+            stateMachine.ChangeState(State.IDLE);
         }
 
         private void CreateStateMachine() => stateMachine = new TitanisStateMachine(this);

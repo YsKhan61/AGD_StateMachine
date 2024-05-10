@@ -94,7 +94,7 @@ namespace StatePattern.Player
                SoundService.PlaySoundEffects(SoundType.PLAYER_ATTACK);
                 foreach (EnemyController enemy in enemiesInRange)
                 {
-                    enemy.Die();
+                    enemy.TakeDamage(playerScriptableObject.AttackValue);
                 }
                 enemiesInRange.Clear();
             }

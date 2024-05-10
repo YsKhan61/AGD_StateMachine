@@ -26,6 +26,8 @@ namespace StatePattern.Enemy
         /// </summary>
         private LayerMask raycastLayer;
 
+        private bool noDamage;
+
         public EnemyController(EnemyScriptableObject enemyScriptableObject)
         {
             this.enemyScriptableObject = enemyScriptableObject;
@@ -39,6 +41,7 @@ namespace StatePattern.Enemy
             enemyView.transform.position = enemyScriptableObject.SpawnPosition;
             enemyView.transform.rotation = Quaternion.Euler(enemyScriptableObject.SpawnRotation);
             enemyView.SetTriggerRadius(enemyScriptableObject.RangeRadius);
+            enemyView.InitializeHealthBar(enemyScriptableObject.HealthBarPrefab);
         }
 
         private void InitializeVariables()
@@ -55,11 +58,27 @@ namespace StatePattern.Enemy
             Agent.speed = enemyScriptableObject.MovementSpeed;
         }
 
-        public virtual void Die() 
+        public virtual void TakeDamage(int damage) 
+        {
+            if (noDamage)
+                return;
+
+            currentHealth -= damage;
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
+
+            enemyView.UpdateHealthBar((float)currentHealth / enemyScriptableObject.MaximumHealth);
+        }
+
+        public virtual void Die()
         {
             GameService.Instance.EnemyService.EnemyDied(this);
             enemyView.Destroy();
         }
+
+        public virtual void SetNoDamage(bool value) => noDamage = value;
 
         public void ToggleKillOverlay(bool value) => GameService.Instance.UIService.ToggleKillOverlay(value);
 
@@ -138,6 +157,10 @@ namespace StatePattern.Enemy
         public virtual void OnRotatingStateComplete() { }
 
         public virtual void OnRoaringStateComplete() { }
+
+        public virtual void OnNoDamageStateComplete() { }
+
+        public virtual void OnTeleportingStateComplete() { }
 
         public void DrawGizmos()
         {

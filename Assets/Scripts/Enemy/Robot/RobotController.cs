@@ -57,6 +57,11 @@ namespace StatePattern.Enemy
             stateMachine.ChangeState(State.PATROLLING);
         }
 
+        public override void OnTeleportingStateComplete()
+        {
+            stateMachine.ChangeState(State.IDLE);
+        }
+
         public override void Die()
         {
             if (CloneCountLeft > 0)

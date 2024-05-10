@@ -57,6 +57,11 @@ namespace StatePattern.Enemy
             stateMachine.ChangeState(State.PATROLLING);
         }
 
+        public override void OnTeleportingStateComplete()
+        {
+            stateMachine.ChangeState(State.IDLE);
+        }
+
         private void CreateStateMachine() => stateMachine = new HitmanStateMachine(this);
     }
 }

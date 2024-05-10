@@ -1,6 +1,5 @@
 ﻿using StatePattern.StateMachine;
-using System.Collections.Generic;
-using UnityEngine;
+
 
 namespace StatePattern.Enemy
 {
@@ -17,10 +16,10 @@ namespace StatePattern.Enemy
 
         private void CreateStates()
         {
-            States.Add(StateMachine.State.IDLE, new IdleState<PatrolManController>(this));
-            States.Add(StateMachine.State.PATROLLING, new PatrollingState<PatrolManController>(this));
-            States.Add(StateMachine.State.CHASING, new ChasingState<PatrolManController>(this));
-            States.Add(StateMachine.State.SHOOTING, new ShootingState<PatrolManController>(this));
+            States.Add(State.IDLE, new IdleState<PatrolManController>(this));
+            States.Add(State.PATROLLING, new PatrollingState<PatrolManController>(this));
+            States.Add(State.CHASING, new ChasingState<PatrolManController>(this));
+            States.Add(State.SHOOTING, new ShootingState<PatrolManController>(this));
         }
     }
 }

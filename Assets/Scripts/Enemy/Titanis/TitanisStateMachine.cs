@@ -18,6 +18,8 @@ namespace StatePattern.Enemy
             States.Add(State.ROTATING, new RotatingState<TitanisController>(this));
             States.Add(State.ROARING, new RoaringState<TitanisController>(this));
             States.Add(State.CHARGE_ATTACK, new ChargeAttackState<TitanisController>(this));
+            States.Add(State.NO_DAMAGE, new NoDamageState<TitanisController>(this));
+            States.Add(State.TELEPORTING, new TeleportingState<TitanisController>(this));
         }
     }
 }

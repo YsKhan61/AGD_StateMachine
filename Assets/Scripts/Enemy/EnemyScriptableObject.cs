@@ -1,7 +1,7 @@
 using StatePattern.Enemy.Bullet;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace StatePattern.Enemy
 {
@@ -10,6 +10,7 @@ namespace StatePattern.Enemy
     {
         public int LevelID;
         public EnemyView EnemyPrefab;
+        public GameObject HealthBarPrefab;
         public EnemyType Type;
         public Vector3 SpawnPosition;
         public Vector3 SpawnRotation;

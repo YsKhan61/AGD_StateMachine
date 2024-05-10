@@ -16,7 +16,7 @@ namespace StatePattern.Enemy
         public void OnStateEnter()
         {
             TeleportToRandomPosition();
-            stateMachine.ChangeState(State.CHASING);
+            Owner.OnTeleportingStateComplete();
         }
 
         public void Update() { }

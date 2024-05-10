@@ -1,5 +1,5 @@
 using StatePattern.StateMachine;
-using UnityEngine;
+
 
 namespace StatePattern.Enemy
 {
@@ -14,12 +14,12 @@ namespace StatePattern.Enemy
 
         private void CreateStates()
         {
-            States.Add(StateMachine.State.IDLE, new IdleState<RobotController>(this));
-            States.Add(StateMachine.State.PATROLLING, new PatrollingState<RobotController>(this));
-            States.Add(StateMachine.State.CHASING, new ChasingState<RobotController>(this));
-            States.Add(StateMachine.State.SHOOTING, new ShootingState<RobotController>(this));
-            States.Add(StateMachine.State.TELEPORTING, new TeleportingState<RobotController>(this));
-            States.Add(StateMachine.State.CLONING, new CloningState<RobotController>(this));
+            States.Add(State.IDLE, new IdleState<RobotController>(this));
+            States.Add(State.PATROLLING, new PatrollingState<RobotController>(this));
+            States.Add(State.CHASING, new ChasingState<RobotController>(this));
+            States.Add(State.SHOOTING, new ShootingState<RobotController>(this));
+            States.Add(State.TELEPORTING, new TeleportingState<RobotController>(this));
+            States.Add(State.CLONING, new CloningState<RobotController>(this));
         }
     }
 }

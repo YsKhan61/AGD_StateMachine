@@ -13,11 +13,11 @@ namespace StatePattern.Enemy
 
         private void CreateStates()
         {
-            States.Add(StateMachine.State.IDLE, new IdleState<HitmanController>(this));
-            States.Add(StateMachine.State.PATROLLING, new PatrollingState<HitmanController>(this));
-            States.Add(StateMachine.State.CHASING, new ChasingState<HitmanController>(this));
-            States.Add(StateMachine.State.SHOOTING, new ShootingState<HitmanController>(this));
-            States.Add(StateMachine.State.TELEPORTING, new TeleportingState<HitmanController>(this));
+            States.Add(State.IDLE, new IdleState<HitmanController>(this));
+            States.Add(State.PATROLLING, new PatrollingState<HitmanController>(this));
+            States.Add(State.CHASING, new ChasingState<HitmanController>(this));
+            States.Add(State.SHOOTING, new ShootingState<HitmanController>(this));
+            States.Add(State.TELEPORTING, new TeleportingState<HitmanController>(this));
         }
     }
 }

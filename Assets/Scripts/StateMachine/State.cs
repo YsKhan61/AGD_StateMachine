@@ -10,6 +10,7 @@ namespace StatePattern.StateMachine
         TELEPORTING,
         CLONING,
         ROARING,
-        CHARGE_ATTACK
+        CHARGE_ATTACK,
+        NO_DAMAGE
     }
 }
