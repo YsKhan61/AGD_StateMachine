@@ -10,7 +10,7 @@ namespace ClassroomIGI.Enemy
     /// If hits the player, it will call TakeDamage on the player
     /// On reaching the player, it will call OnChargeAttackStateComplete
     /// </summary>
-    public interface IChargeAttackStateOwner
+    public interface IChargeAttackStateOwner : ITargetScanner
     {
         /// <summary>
         /// Get the transform of the owner

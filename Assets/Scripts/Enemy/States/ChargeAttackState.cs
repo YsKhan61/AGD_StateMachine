@@ -40,6 +40,11 @@ namespace ClassroomIGI.Enemy
 
         public void Update()
         {
+            if (!owner.IsTargetInView())
+            {
+                owner.OnTargetNotInView();
+            }
+
             TryChargeAttack();
         }
 
