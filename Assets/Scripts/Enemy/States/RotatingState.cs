@@ -24,7 +24,7 @@ namespace StatePattern.Enemy
 
             Owner.SetRotation(CalculateRotation());
             if (IsRotationComplete())
-                stateMachine.ChangeState(State.IDLE);
+                Owner.OnRotatingStateComplete();
         }
 
         public void OnStateExit() => targetRotation = 0;

@@ -135,10 +135,9 @@ namespace StatePattern.Enemy
         /// </summary>
         public virtual void OnIdleStateComplete() { }
 
-        public virtual void OnRoaringStateComplete()
-        {
+        public virtual void OnRotatingStateComplete() { }
 
-        }
+        public virtual void OnRoaringStateComplete() { }
 
         public void DrawGizmos()
         {

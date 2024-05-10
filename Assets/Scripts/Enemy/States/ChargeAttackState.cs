@@ -45,8 +45,16 @@ namespace StatePattern.Enemy
                 return;
             }
 
+            TryChargeAttack();
+
+            
+        }
+
+        private void TryChargeAttack()
+        {
             Collider[] results = new Collider[1];
             Owner.Transform.position = Vector3.Lerp(Owner.Transform.position, targetPosition, (Time.deltaTime / DASH_DURATION));
+            Owner.Transform.rotation = Quaternion.LookRotation(targetPosition - Owner.Position);
             int hitCount = Physics.OverlapSphereNonAlloc(Owner.Position, SPHERE_RADIUS, results, playerLayer);
             if (hitCount <= 0) return;
             if (!results[0].TryGetComponent(out PlayerView player)) return;

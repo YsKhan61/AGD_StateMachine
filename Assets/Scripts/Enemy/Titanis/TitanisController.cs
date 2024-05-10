@@ -22,7 +22,7 @@ namespace StatePattern.Enemy
             }
             else
             {
-                stateMachine.ChangeState(State.IDLE);
+                stateMachine.ChangeState(State.ROTATING);
             }
         }
 
@@ -44,6 +44,11 @@ namespace StatePattern.Enemy
             stateMachine.Update();
 
             enemyView.LogDebug($"Current State: {stateMachine.GetCurrentState()}");
+        }
+
+        public override void OnRotatingStateComplete()
+        {
+            stateMachine.ChangeState(State.IDLE);
         }
 
         public override void OnRoaringStateComplete()

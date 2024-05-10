@@ -50,6 +50,11 @@ namespace StatePattern.Enemy
             stateMachine.ChangeState(State.ROTATING);
         }
 
+        public override void OnRotatingStateComplete()
+        {
+            stateMachine.ChangeState(State.IDLE);
+        }
+
         private void CreateStateMachine() => stateMachine = new OnePunchManStateMachine(this);
     }
 }
