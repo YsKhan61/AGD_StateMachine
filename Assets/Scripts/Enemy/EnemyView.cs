@@ -1,5 +1,4 @@
-﻿using StatePattern.Player;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,14 +7,18 @@ namespace StatePattern.Enemy
 {
     public class EnemyView : MonoBehaviour
     {
-        public EnemyController Controller { get; private set; }
+        
+        [SerializeField] private EnemyTriggerBehaviour triggerBehaviour;
         [SerializeField] public NavMeshAgent Agent;
-        private SphereCollider rangeTriggerCollider;
         [SerializeField] private SpriteRenderer enemyGraphic;
         [SerializeField] private SpriteRenderer detectableRange;
         [SerializeField] private ParticleSystem muzzleFlash;
         [SerializeField] private List<EnemyColor> enemyColors;
         [SerializeField] private GameObject bloodStain;
+
+        private SphereCollider rangeTriggerCollider;
+
+        public EnemyController Controller { get; private set; }
 
         [Header("Debug Only")]
         [SerializeField, TextArea(5, 5)]
@@ -27,7 +30,11 @@ namespace StatePattern.Enemy
             Controller?.InitializeAgent();
         }
 
-        public void SetController(EnemyController controllerToSet) => Controller = controllerToSet;
+        public void SetController(EnemyController controllerToSet)
+        {
+            Controller = controllerToSet;
+            triggerBehaviour.SetController(controllerToSet);        // considering every trigger 
+        }
 
         public void SetTriggerRadius(float radiusToSet)
         {
@@ -47,7 +54,7 @@ namespace StatePattern.Enemy
 
         private void Update() => Controller?.UpdateEnemy();
 
-        private void OnTriggerEnter(Collider other)
+        /*private void OnTriggerEnter(Collider other)
         {
             if (!other.isTrigger || !other.TryGetComponent(out PlayerView playerView)) return;
             Controller.PlayerEnteredRange(playerView.Controller);
@@ -57,7 +64,7 @@ namespace StatePattern.Enemy
         {
             if (!other.isTrigger || !other.TryGetComponent(out PlayerView playerView)) return;
             Controller.PlayerExitedRange();
-        }
+        }*/
 
         public void Destroy() => StartCoroutine(EnemyDeathSequence());
 

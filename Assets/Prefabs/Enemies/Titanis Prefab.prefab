@@ -96,7 +96,6 @@ GameObject:
   - component: {fileID: 4539706903899474964}
   - component: {fileID: 4539706903899474984}
   - component: {fileID: 4539706903899474985}
-  - component: {fileID: 465711594477489646}
   m_Layer: 0
   m_Name: Titanis Prefab
   m_TagString: Untagged
@@ -179,6 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8bc83a54b9d7514893bc2d8cd564456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  triggerBehaviour: {fileID: 4725146443693220224}
   Agent: {fileID: 4539706903899474984}
   enemyGraphic: {fileID: 4539706902393536868}
   detectableRange: {fileID: 1256644641259568013}
@@ -190,27 +190,6 @@ MonoBehaviour:
     Color: {r: 1, g: 0, b: 0, a: 1}
   bloodStain: {fileID: 2531642671473160316, guid: efa600927a40a5547a583186d52428d4, type: 3}
   debugMessage: 
---- !u!135 &465711594477489646
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4539706903899474967}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 6
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4562283368131266743
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,6 +200,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5981358732787370626}
   - component: {fileID: 1256644641259568013}
+  - component: {fileID: 7205067863990363899}
+  - component: {fileID: 4725146443693220224}
   m_Layer: 0
   m_Name: Detectable Range
   m_TagString: Untagged
@@ -295,6 +276,39 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!135 &7205067863990363899
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4562283368131266743}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4725146443693220224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4562283368131266743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e772dc0fe872d044827b4b4c5c1bd60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3681091179913822864
 PrefabInstance:
   m_ObjectHideFlags: 0
