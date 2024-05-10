@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace StatePattern.Sound
+namespace ClassroomIGI.Sound
 {
     [CreateAssetMenu(fileName = "SoundScriptableObject", menuName = "ScriptableObjects/SoundScriptableObject")]
     public class SoundScriptableObject : ScriptableObject

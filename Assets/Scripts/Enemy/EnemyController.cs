@@ -1,23 +1,23 @@
-﻿using StatePattern.Enemy.Bullet;
-using StatePattern.Main;
-using StatePattern.Player;
+﻿using ClassroomIGI.Enemy.Bullet;
+using ClassroomIGI.Main;
+using ClassroomIGI.Player;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
     public abstract class EnemyController
     {
-        protected EnemyScriptableObject enemyScriptableObject;
+        protected EnemyScriptableObject data;
         protected EnemyView enemyView;
 
         protected int currentHealth;
         protected EnemyState currentState;
         public NavMeshAgent Agent => enemyView.Agent;
-        public EnemyScriptableObject Data => enemyScriptableObject;
+        public EnemyScriptableObject Data => data;
         public Quaternion Rotation => enemyView.transform.rotation;
         public Vector3 Position => enemyView.transform.position;
-        public Transform Transform => enemyView.transform;
+        public Transform Transform => enemyView.transform;   
 
         protected PlayerController playerInRange;
 
@@ -30,32 +30,32 @@ namespace StatePattern.Enemy
 
         public EnemyController(EnemyScriptableObject enemyScriptableObject)
         {
-            this.enemyScriptableObject = enemyScriptableObject;
+            this.data = enemyScriptableObject;
             InitializeView();
             InitializeVariables();
         }
 
         private void InitializeView()
         {
-            enemyView = Object.Instantiate(enemyScriptableObject.EnemyPrefab);
-            enemyView.transform.position = enemyScriptableObject.SpawnPosition;
-            enemyView.transform.rotation = Quaternion.Euler(enemyScriptableObject.SpawnRotation);
-            enemyView.SetTriggerRadius(enemyScriptableObject.RangeRadius);
-            enemyView.InitializeHealthBar(enemyScriptableObject.HealthBarPrefab);
+            enemyView = Object.Instantiate(data.EnemyPrefab);
+            enemyView.transform.position = data.SpawnPosition;
+            enemyView.transform.rotation = Quaternion.Euler(data.SpawnRotation);
+            enemyView.SetTriggerRadius(data.RangeRadius);
+            enemyView.InitializeHealthBar(data.HealthBarPrefab);
         }
 
         private void InitializeVariables()
         {
             SetState(EnemyState.ACTIVE);
-            currentHealth = enemyScriptableObject.MaximumHealth;
+            currentHealth = data.MaximumHealth;
             raycastLayer = GameService.Instance.ObstacleLayer | GameService.Instance.PlayerLayer;
         }
 
         public void InitializeAgent()
         {
             Agent.enabled = true;
-            Agent.SetDestination(enemyScriptableObject.SpawnPosition);
-            Agent.speed = enemyScriptableObject.MovementSpeed;
+            Agent.SetDestination(data.SpawnPosition);
+            Agent.speed = data.MovementSpeed;
         }
 
         public virtual void TakeDamage(int damage) 
@@ -69,7 +69,7 @@ namespace StatePattern.Enemy
                 Die();
             }
 
-            enemyView.UpdateHealthBar((float)currentHealth / enemyScriptableObject.MaximumHealth);
+            enemyView.UpdateHealthBar((float)currentHealth / data.MaximumHealth);
         }
 
         public virtual void Die()
@@ -94,7 +94,7 @@ namespace StatePattern.Enemy
         {
             enemyView.PlayShootingEffect();
             GameService.Instance.SoundService.PlaySoundEffects(Sound.SoundType.ENEMY_SHOOT);
-            new BulletController(enemyView.transform, enemyScriptableObject.BulletData);
+            new BulletController(enemyView.transform, data.BulletData);
         }
 
         public void SetState(EnemyState stateToSet) => currentState = stateToSet;
@@ -112,7 +112,7 @@ namespace StatePattern.Enemy
 
         public abstract void UpdateEnemy();
 
-        public bool IsTargetInView()
+        public virtual bool IsTargetInView()
         {
             if (playerInRange == null)
                 return false;
@@ -125,7 +125,7 @@ namespace StatePattern.Enemy
                 0.2f,       // capsule cast radius 
                 playerInRange.Position - enemyView.transform.position, 
                 out hit, 
-                enemyScriptableObject.RangeRadius, 
+                data.RangeRadius, 
                 raycastLayer);
 
             if (!isHit)
@@ -141,26 +141,8 @@ namespace StatePattern.Enemy
             Vector3 direction = (playerInRange.Position - enemyView.transform.position).normalized;
             float angle = Vector3.Angle(direction, enemyView.transform.forward);
 
-            return angle < enemyScriptableObject.FOV;
+            return angle < data.FOV;
         }
-
-        public abstract void OnTargetInView();
-
-        public abstract void OnTargetNotInView();
-
-        /// <summary>
-        /// This method is called when the enemy finishes the idle state
-        /// This is virtual, as not all enemy need to implement this method (those who don't have Idle State).
-        /// </summary>
-        public virtual void OnIdleStateComplete() { }
-
-        public virtual void OnRotatingStateComplete() { }
-
-        public virtual void OnRoaringStateComplete() { }
-
-        public virtual void OnNoDamageStateComplete() { }
-
-        public virtual void OnTeleportingStateComplete() { }
 
         public void DrawGizmos()
         {
@@ -170,7 +152,7 @@ namespace StatePattern.Enemy
             void DrawDetectableRange()
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(enemyView.transform.position, enemyScriptableObject.RangeRadius);
+                Gizmos.DrawWireSphere(enemyView.transform.position, data.RangeRadius);
             }
 
             void DrawPlayerDetectionWithRaycast()
@@ -182,7 +164,7 @@ namespace StatePattern.Enemy
                 Gizmos.DrawRay(
                     enemyView.transform.position,
                     (playerInRange.Position - enemyView.transform.position).normalized
-                    * enemyScriptableObject.RangeRadius);
+                    * data.RangeRadius);
             }
         }
     }

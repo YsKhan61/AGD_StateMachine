@@ -1,23 +1,26 @@
-using StatePattern.StateMachine;
+using ClassroomIGI.StateMachine;
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class HitmanStateMachine : GenericStateMachine<HitmanController>
+    /// <summary>
+    /// The state machine for the Hitman Enemy
+    /// It will create the states for the Hitman
+    /// The states are - Idle, Patrolling, Chasing, Shooting, Teleporting
+    /// </summary>
+    public class HitmanStateMachine : BaseStateMachine
     {
-        public HitmanStateMachine(HitmanController Owner) : base(Owner)
+        public HitmanStateMachine(HitmanController owner)
         {
-            this.Owner = Owner;
-            CreateStates();
-            SetOwner();
+            CreateStates(owner);
         }
 
-        private void CreateStates()
+        private void CreateStates(HitmanController owner)
         {
-            States.Add(State.IDLE, new IdleState<HitmanController>(this));
-            States.Add(State.PATROLLING, new PatrollingState<HitmanController>(this));
-            States.Add(State.CHASING, new ChasingState<HitmanController>(this));
-            States.Add(State.SHOOTING, new ShootingState<HitmanController>(this));
-            States.Add(State.TELEPORTING, new TeleportingState<HitmanController>(this));
+            States.Add(State.IDLE, new IdleState(owner));
+            States.Add(State.PATROLLING, new PatrollingState(owner));
+            States.Add(State.CHASING, new ChasingState(owner));
+            States.Add(State.SHOOTING, new ShootingState(owner));
+            States.Add(State.TELEPORTING, new TeleportingState(owner));
         }
     }
 }

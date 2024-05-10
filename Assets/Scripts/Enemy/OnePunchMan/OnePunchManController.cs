@@ -1,10 +1,21 @@
-using StatePattern.StateMachine;
-using StatePattern.Player;
+using ClassroomIGI.StateMachine;
+using ClassroomIGI.Player;
 
-namespace StatePattern.Enemy
+
+namespace ClassroomIGI.Enemy
 {
-    public class OnePunchManController : EnemyController
+
+    /// <summary>
+    /// The controller for the One Punch Man Enemy
+    /// </summary>
+    public class OnePunchManController : EnemyController, IOnePunchManStateOwner
     {
+        public float IdleDuration => data.IdleTime;
+        public float RotationSpeed => data.RotationSpeed;
+        public float RotationThreshold => data.RotationThreshold;
+
+        public float RateOfFire => data.RateOfFire;
+
         private OnePunchManStateMachine stateMachine;
 
         public OnePunchManController(EnemyScriptableObject enemyScriptableObject) : base(enemyScriptableObject)
@@ -25,9 +36,7 @@ namespace StatePattern.Enemy
         }
 
         public override void PlayerEnteredRange(PlayerController targetToSet)
-        {
-            base.PlayerEnteredRange(targetToSet);
-        }
+            => base.PlayerEnteredRange(targetToSet);
 
         public override void PlayerExitedRange()
         {
@@ -35,25 +44,10 @@ namespace StatePattern.Enemy
             stateMachine.ChangeState(State.IDLE);
         }
 
-        public override void OnTargetInView()
-        {
-            stateMachine.ChangeState(State.SHOOTING);
-        }
-
-        public override void OnTargetNotInView()
-        {
-            stateMachine.ChangeState(State.IDLE);
-        }
-
-        public override void OnIdleStateComplete()
-        {
-            stateMachine.ChangeState(State.ROTATING);
-        }
-
-        public override void OnRotatingStateComplete()
-        {
-            stateMachine.ChangeState(State.IDLE);
-        }
+        public void OnTargetInView() => stateMachine.ChangeState(State.SHOOTING);
+        public void OnTargetNotInView() => stateMachine.ChangeState(State.IDLE);
+        public void OnIdleStateComplete() => stateMachine.ChangeState(State.ROTATING);
+        public void OnRotatingStateComplete() => stateMachine.ChangeState(State.IDLE);
 
         private void CreateStateMachine() => stateMachine = new OnePunchManStateMachine(this);
     }

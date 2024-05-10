@@ -1,8 +1,8 @@
-﻿using StatePattern.Utilities;
+﻿using ClassroomIGI.Utilities;
 using UnityEngine;
 
 
-namespace StatePattern.Player
+namespace ClassroomIGI.Player
 {
     [CreateAssetMenu(fileName = "PlayerScriptableObject", menuName = "ScriptableObjects/PlayerScriptableObject")]
     public class PlayerScriptableObject : ScriptableObject

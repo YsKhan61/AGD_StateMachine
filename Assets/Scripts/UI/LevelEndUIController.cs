@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace StatePattern.UI
+namespace ClassroomIGI.UI
 {
     public class LevelEndUIController : IUIController
     {

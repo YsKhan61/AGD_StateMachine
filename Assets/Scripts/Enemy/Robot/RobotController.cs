@@ -1,13 +1,26 @@
-using StatePattern.Player;
-using StatePattern.StateMachine;
+using ClassroomIGI.Player;
+using ClassroomIGI.StateMachine;
+using System.Collections.Generic;
+using UnityEngine;
 
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class RobotController : EnemyController
+    /// <summary>
+    /// The controller for the Robot Enemy
+    /// </summary>
+    public class RobotController : EnemyController, IRobotStateOwner
     {
         private RobotStateMachine stateMachine;
+
         public int CloneCountLeft { get; private set; }
+        public float IdleDuration => data.IdleTime;
+        public IList<Vector3> PatrollingPoints => data.PatrollingPoints;
+        public float PlayerStoppingDistance => data.PlayerStoppingDistance;
+        public float RotationSpeed => data.RotationSpeed;
+        public float RotationThreshold => data.RotationThreshold;
+        public float RateOfFire => data.RateOfFire;
+        public Vector3 SpawnPosition => data.SpawnPosition;
 
         public RobotController(EnemyScriptableObject enemyScriptableObject) : base(enemyScriptableObject)
         {
@@ -19,7 +32,6 @@ namespace StatePattern.Enemy
         }
 
         public void SetCloneCount(int cloneCountToSet) => CloneCountLeft = cloneCountToSet;
-
         
         public override void UpdateEnemy()
         {
@@ -32,33 +44,11 @@ namespace StatePattern.Enemy
         }
 
         public override void PlayerEnteredRange(PlayerController targetToSet)
-        {
-            base.PlayerEnteredRange(targetToSet);
-        }
+            => base.PlayerEnteredRange(targetToSet);
 
         public override void PlayerExitedRange()
         {
             base.PlayerExitedRange();
-            stateMachine.ChangeState(State.IDLE);
-        }
-
-        public override void OnTargetInView()
-        {
-            stateMachine.ChangeState(State.CHASING);
-        }
-
-        public override void OnTargetNotInView()
-        {
-            stateMachine.ChangeState(State.IDLE);
-        }
-
-        public override void OnIdleStateComplete()
-        {
-            stateMachine.ChangeState(State.PATROLLING);
-        }
-
-        public override void OnTeleportingStateComplete()
-        {
             stateMachine.ChangeState(State.IDLE);
         }
 
@@ -70,13 +60,17 @@ namespace StatePattern.Enemy
         }
 
         public void Teleport() => stateMachine.ChangeState(State.TELEPORTING);
-
         public void SetDefaultColor(EnemyColorType colorType) => enemyView.SetDefaultColor(colorType);
-
         public void ChangeColor(EnemyColorType colorType) => enemyView.ChangeColor(colorType);
 
-        private void CreateStateMachine() => stateMachine = new RobotStateMachine(this);
+        public void OnTargetInView() => stateMachine.ChangeState(State.CHASING);
+        public void OnTargetNotInView() => stateMachine.ChangeState(State.IDLE);
+        public void OnIdleStateComplete() => stateMachine.ChangeState(State.PATROLLING);
+        public void OnTeleportingStateComplete() => stateMachine.ChangeState(State.IDLE);
+        public void OnPatrollingStateComplete() => stateMachine.ChangeState(State.IDLE);
+        public void OnChasingStateComplete() => stateMachine.ChangeState(State.SHOOTING);
 
+        private void CreateStateMachine() => stateMachine = new RobotStateMachine(this);
     }
 
 }

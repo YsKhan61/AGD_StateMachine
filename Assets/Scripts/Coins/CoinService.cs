@@ -1,9 +1,9 @@
-using StatePattern.Main;
+using ClassroomIGI.Main;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace StatePattern.Coin
+namespace ClassroomIGI.Coin
 {
     public class CoinService
     {

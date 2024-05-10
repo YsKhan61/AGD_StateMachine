@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace StatePattern.Sound
+namespace ClassroomIGI.Sound
 {
     public class SoundService
     {

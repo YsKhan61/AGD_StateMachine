@@ -1,10 +1,10 @@
-﻿using StatePattern.Main;
-using StatePattern.Player;
+﻿using ClassroomIGI.Main;
+using ClassroomIGI.Player;
 using System.Collections;
 using UnityEngine;
 
 
-namespace StatePattern.Coin
+namespace ClassroomIGI.Coin
 {
     [RequireComponent(typeof(Rigidbody))]
     public class CoinView : MonoBehaviour

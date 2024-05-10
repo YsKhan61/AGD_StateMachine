@@ -1,10 +1,11 @@
-using StatePattern.Enemy;
-
-namespace StatePattern.StateMachine
+namespace ClassroomIGI.StateMachine
 {
+    /// <summary>
+    /// An interface for the state of the state machine
+    /// Any class implementing this interface will be a state
+    /// </summary>
     public interface IState
     {
-        public EnemyController Owner { get; set; }
         public void OnStateEnter();
         public void Update();
         public void OnStateExit();

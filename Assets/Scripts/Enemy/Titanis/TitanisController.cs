@@ -1,20 +1,30 @@
-using StatePattern.StateMachine;
-using static UnityEngine.UI.GridLayoutGroup;
+using ClassroomIGI.StateMachine;
+using UnityEngine;
 
-namespace StatePattern.Enemy
+
+namespace ClassroomIGI.Enemy
 {
-    public class TitanisController : EnemyController
+
+    /// <summary>
+    /// The controller for the Titanis Enemy
+    /// </summary>
+    public class TitanisController : EnemyController, ITitanisStateOwner
     {
         private TitanisStateMachine stateMachine;
+
+        public float IdleDuration => data.IdleTime;
+        public float RotationSpeed => data.RotationSpeed;
+        public float RotationThreshold => data.RotationThreshold;
+        public Vector3 SpawnPosition => data.SpawnPosition;
 
         public TitanisController(EnemyScriptableObject enemyScriptableObject) : base(enemyScriptableObject)
         {
             enemyView.SetController(this);
             CreateStateMachine();
-            stateMachine.ChangeState(StateMachine.State.IDLE);
+            stateMachine.ChangeState(State.IDLE);
         }
 
-        public override void OnIdleStateComplete()
+        public void OnIdleStateComplete()
         {
             if (IsTargetInView())
             {
@@ -26,15 +36,9 @@ namespace StatePattern.Enemy
             }
         }
 
-        public override void OnTargetInView()
-        {
-            stateMachine.ChangeState(State.ROARING);
-        }
+        public void OnTargetInView() => stateMachine.ChangeState(State.ROARING);
 
-        public override void OnTargetNotInView()
-        {
-            stateMachine.ChangeState(State.IDLE);
-        }
+        public void OnTargetNotInView() => stateMachine.ChangeState(State.IDLE);
 
         public override void UpdateEnemy()
         {
@@ -55,12 +59,9 @@ namespace StatePattern.Enemy
             stateMachine.ChangeState(State.NO_DAMAGE);
         }
 
-        public override void OnRotatingStateComplete()
-        {
-            stateMachine.ChangeState(State.IDLE);
-        }
+        public void OnRotatingStateComplete() => stateMachine.ChangeState(State.IDLE);
 
-        public override void OnRoaringStateComplete()
+        public void OnRoaringStateComplete()
         {
             if (IsTargetInView())
             {
@@ -72,15 +73,9 @@ namespace StatePattern.Enemy
             }
         }
 
-        public override void OnNoDamageStateComplete()
-        {
-            stateMachine.ChangeState(State.TELEPORTING);
-        }
-
-        public override void OnTeleportingStateComplete()
-        {
-            stateMachine.ChangeState(State.IDLE);
-        }
+        public void OnNoDamageStateComplete() => stateMachine.ChangeState(State.TELEPORTING);
+        public void OnTeleportingStateComplete() => stateMachine.ChangeState(State.IDLE);
+        public void OnChargeAttackStateComplete() => stateMachine.ChangeState(State.NO_DAMAGE);
 
         private void CreateStateMachine() => stateMachine = new TitanisStateMachine(this);
     }

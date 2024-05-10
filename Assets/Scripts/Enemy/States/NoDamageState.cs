@@ -1,33 +1,36 @@
-﻿using StatePattern.StateMachine;
+﻿using ClassroomIGI.StateMachine;
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class NoDamageState<T> : IState where T : EnemyController
+    /// <summary>
+    /// No Damage State for the INoDamageStateOwner
+    /// It will set the owner to no damage state
+    /// It will call OnNoDamageStateComplete when the no damage state is complete
+    /// </summary>
+    public class NoDamageState : IState
     {
         private const int DURATION = 2;
         private float timeElapsed;
-        private GenericStateMachine<T> stateMachine;
+        private INoDamageStateOwner owner;
 
-        public EnemyController Owner { get; set; }
-
-        public NoDamageState(GenericStateMachine<T> stateMachine) => this.stateMachine = stateMachine;
+        public NoDamageState(INoDamageStateOwner owner) => this.owner = owner;
 
         public void OnStateEnter()
         {
             timeElapsed = 0;
-            Owner.SetNoDamage(true);
+            owner.SetNoDamage(true);
         }
 
         public void OnStateExit()
         {
-            Owner.SetNoDamage(false);
+            owner.SetNoDamage(false);
         }
 
         public void Update()
         {
             if (timeElapsed >= DURATION)
             {
-                Owner.OnNoDamageStateComplete();
+                owner.OnNoDamageStateComplete();
                 return;
             }
 

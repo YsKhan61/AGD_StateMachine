@@ -1,5 +1,8 @@
-namespace StatePattern.StateMachine
+namespace ClassroomIGI.StateMachine
 {
+    /// <summary>
+    /// Enum for the states of the state machine
+    /// </summary>
     public enum State
     {
         IDLE,

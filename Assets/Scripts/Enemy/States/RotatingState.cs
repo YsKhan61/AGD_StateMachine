@@ -1,36 +1,40 @@
-using StatePattern.StateMachine;
+using ClassroomIGI.StateMachine;
 using UnityEngine;
 
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class RotatingState<T> : IState where T : EnemyController
+    /// <summary>
+    /// Rotating state of the RotatingStateOwner
+    /// It will rotate the owner to a target rotation
+    /// It will check if the target is in view and change the state to the next state
+    /// </summary>
+    public class RotatingState : IState
     {
-        public EnemyController Owner { get; set; }
-        private GenericStateMachine<T> stateMachine;
+        private IRotatingStateOwner owner;
         private float targetRotation;
 
-        public RotatingState(GenericStateMachine<T> stateMachine) => this.stateMachine = stateMachine;
+        public RotatingState(IRotatingStateOwner owner) => this.owner = owner;
 
-        public void OnStateEnter() => targetRotation = (Owner.Rotation.eulerAngles.y + 180) % 360;
+        public void OnStateEnter() => targetRotation = (owner.Rotation.eulerAngles.y + 180) % 360;
 
         public void Update()
         {
-            if (Owner.IsTargetInView())
+            if (owner.IsTargetInView())
             {
-                Owner.OnTargetInView();
+                owner.OnTargetInView();
                 return;
             }
 
-            Owner.SetRotation(CalculateRotation());
+            owner.SetRotation(CalculateRotation());
             if (IsRotationComplete())
-                Owner.OnRotatingStateComplete();
+                owner.OnRotatingStateComplete();
         }
 
         public void OnStateExit() => targetRotation = 0;
 
-        private Vector3 CalculateRotation() => Vector3.up * Mathf.MoveTowardsAngle(Owner.Rotation.eulerAngles.y, targetRotation, Owner.Data.RotationSpeed * Time.deltaTime);
+        private Vector3 CalculateRotation() => Vector3.up * Mathf.MoveTowardsAngle(owner.Rotation.eulerAngles.y, targetRotation, owner.RotationSpeed * Time.deltaTime);
 
-        private bool IsRotationComplete() => Mathf.Abs(Mathf.Abs(Owner.Rotation.eulerAngles.y) - Mathf.Abs(targetRotation)) < Owner.Data.RotationThreshold;
+        private bool IsRotationComplete() => Mathf.Abs(Mathf.Abs(owner.Rotation.eulerAngles.y) - Mathf.Abs(targetRotation)) < owner.RotationThreshold;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace StatePattern.UI
+namespace ClassroomIGI.UI
 {
     public class LevelSelectionUIView : MonoBehaviour, IUIView
     {

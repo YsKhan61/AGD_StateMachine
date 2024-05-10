@@ -1,19 +1,24 @@
-using StatePattern.Main;
-using StatePattern.Player;
-using StatePattern.StateMachine;
+using ClassroomIGI.Main;
+using ClassroomIGI.Player;
+using ClassroomIGI.StateMachine;
 using UnityEngine;
 
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class ShootingState<T> : IState where T : EnemyController
+    /// <summary>
+    /// Shooting state of the ShootingStateOwner
+    /// It will rotate towards the player and shoot at the player
+    /// It will check if the player is in view
+    /// if the player is not in view, it will call OnTargetNotInView
+    /// </summary>
+    public class ShootingState : IState
     {
-        public EnemyController Owner { get; set; }
-        private GenericStateMachine<T> stateMachine;
+        private IShootingStateOwner owner;
         private PlayerController target;
         private float shootTimer;
 
-        public ShootingState(GenericStateMachine<T> stateMachine) => this.stateMachine = stateMachine;
+        public ShootingState(IShootingStateOwner owner) => this.owner = owner;
 
         public void OnStateEnter()
         {
@@ -23,14 +28,14 @@ namespace StatePattern.Enemy
 
         public void Update()
         {
-            if (!Owner.IsTargetInView())
+            if (!owner.IsTargetInView())
             {
-                Owner.OnTargetNotInView();
+                owner.OnTargetNotInView();
                 return;
             }
 
             Quaternion desiredRotation = CalculateRotationTowardsPlayer();
-            Owner.SetRotation(RotateTowards(desiredRotation));
+            owner.SetRotation(RotateTowards(desiredRotation));
 
             if(IsRotationComplete(desiredRotation))
             {
@@ -38,7 +43,7 @@ namespace StatePattern.Enemy
                 if (shootTimer <= 0)
                 {
                     ResetTimer();
-                    Owner.Shoot();
+                    owner.Shoot();
                 }
             }
         }
@@ -49,15 +54,15 @@ namespace StatePattern.Enemy
 
         private Quaternion CalculateRotationTowardsPlayer()
         {
-            Vector3 directionToPlayer = target.Position - Owner.Position;
+            Vector3 directionToPlayer = target.Position - owner.Position;
             directionToPlayer.y = 0f;
             return Quaternion.LookRotation(directionToPlayer, Vector3.up);
         }
 
-        private Quaternion RotateTowards(Quaternion desiredRotation) => Quaternion.LerpUnclamped(Owner.Rotation, desiredRotation, Owner.Data.RotationSpeed / 30 * Time.deltaTime);
+        private Quaternion RotateTowards(Quaternion desiredRotation) => Quaternion.LerpUnclamped(owner.Rotation, desiredRotation, owner.RotationSpeed / 30 * Time.deltaTime);
 
-        private bool IsRotationComplete(Quaternion desiredRotation) => Quaternion.Angle(Owner.Rotation, desiredRotation) < Owner.Data.RotationThreshold;
+        private bool IsRotationComplete(Quaternion desiredRotation) => Quaternion.Angle(owner.Rotation, desiredRotation) < owner.RotationThreshold;
 
-        private void ResetTimer() => shootTimer = Owner.Data.RateOfFire;
+        private void ResetTimer() => shootTimer = owner.RateOfFire;
     }
 }

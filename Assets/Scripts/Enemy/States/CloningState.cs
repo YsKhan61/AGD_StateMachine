@@ -1,14 +1,13 @@
-﻿using StatePattern.Main;
-using StatePattern.StateMachine;
+﻿using ClassroomIGI.Main;
+using ClassroomIGI.StateMachine;
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class CloningState<T> : IState where T : EnemyController
+    public class CloningState : IState
     {
-        public EnemyController Owner { get; set; }
-        private GenericStateMachine<T> stateMachine;
+        private ICloningStateOwner owner;
 
-        public CloningState(GenericStateMachine<T> stateMachine) => this.stateMachine = stateMachine;
+        public CloningState(ICloningStateOwner owner) => this.owner = owner;
 
         public void OnStateEnter()
         {
@@ -22,8 +21,8 @@ namespace StatePattern.Enemy
 
         private void CreateAClone()
         {
-            RobotController clonedRobot = GameService.Instance.EnemyService.CreateEnemy(Owner.Data) as RobotController;
-            clonedRobot.SetCloneCount((Owner as RobotController).CloneCountLeft - 1);
+            RobotController clonedRobot = GameService.Instance.EnemyService.CreateEnemy(owner.Data) as RobotController;
+            clonedRobot.SetCloneCount((owner as RobotController).CloneCountLeft - 1);
             clonedRobot.Teleport();
             clonedRobot.SetDefaultColor(EnemyColorType.Clone);
             clonedRobot.ChangeColor(EnemyColorType.Clone);

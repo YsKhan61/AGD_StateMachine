@@ -1,25 +1,28 @@
-﻿using StatePattern.StateMachine;
+﻿using ClassroomIGI.StateMachine;
 
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class PatrolManStateMachine : GenericStateMachine<PatrolManController>
+    /// <summary>
+    /// The state machine for the Patrol Man Enemy
+    /// It will create the states for the Patrol
+    /// The states are - Idle, Patrolling, Chasing, Shooting
+    /// </summary>
+    public class PatrolManStateMachine : BaseStateMachine
     {
         public string CurrentStateName => currentState.ToString();
 
-        public PatrolManStateMachine(PatrolManController Owner) : base(Owner)
+        public PatrolManStateMachine(PatrolManController owner)
         {
-            this.Owner = Owner;
-            CreateStates();
-            SetOwner();
+            CreateStates(owner);
         }
 
-        private void CreateStates()
+        private void CreateStates(PatrolManController owner)
         {
-            States.Add(State.IDLE, new IdleState<PatrolManController>(this));
-            States.Add(State.PATROLLING, new PatrollingState<PatrolManController>(this));
-            States.Add(State.CHASING, new ChasingState<PatrolManController>(this));
-            States.Add(State.SHOOTING, new ShootingState<PatrolManController>(this));
+            States.Add(State.IDLE, new IdleState(owner));
+            States.Add(State.PATROLLING, new PatrollingState(owner));
+            States.Add(State.CHASING, new ChasingState(owner));
+            States.Add(State.SHOOTING, new ShootingState(owner));
         }
     }
 }

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-using StatePattern.Main;
-using StatePattern.Events;
-using StatePattern.Enemy;
+using ClassroomIGI.Main;
+using ClassroomIGI.Events;
+using ClassroomIGI.Enemy;
 
-namespace StatePattern.Level
+namespace ClassroomIGI.Level
 {
     public class LevelService
     {

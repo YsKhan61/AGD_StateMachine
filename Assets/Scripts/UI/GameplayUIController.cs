@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace StatePattern.UI
+namespace ClassroomIGI.UI
 {
     public class GameplayUIController : IUIController
     {

@@ -1,4 +1,4 @@
-namespace StatePattern.UI
+namespace ClassroomIGI.UI
 {
     public interface IUIController 
     {

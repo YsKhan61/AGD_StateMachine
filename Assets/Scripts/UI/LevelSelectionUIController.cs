@@ -1,8 +1,8 @@
-﻿using StatePattern.Main;
+﻿using ClassroomIGI.Main;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace StatePattern.UI
+namespace ClassroomIGI.UI
 {
     public class LevelSelectionUIController : IUIController
     {

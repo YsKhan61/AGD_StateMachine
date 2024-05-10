@@ -1,65 +1,58 @@
-﻿using StatePattern.Main;
-using StatePattern.Player;
-using StatePattern.StateMachine;
+﻿using ClassroomIGI.Main;
+using ClassroomIGI.Player;
+using ClassroomIGI.StateMachine;
 using UnityEngine;
 
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class ChargeAttackState<T> : IState where T : EnemyController
+    /// <summary>
+    /// Charge attack state for the IChaseAttackStateOwner
+    /// It will dash the owner straight to the player
+    /// it will call TakeDamage on the player if owner hits the player
+    /// When the owner reaches the player, it will call OnChargeAttackStateComplete
+    /// </summary>
+    public class ChargeAttackState : IState
     {
         private const float DASH_DURATION = 0.5f;
         private const float SPHERE_RADIUS = 0.5f;
         private const int CHARGE_DAMAGE = 20;
 
-        public EnemyController Owner { get; set; }
-        private GenericStateMachine<T> stateMachine;
+        private IChargeAttackStateOwner owner;
         private Vector3 targetPosition;
         private LayerMask playerLayer;
-        private float timeElapsed;
 
-        public ChargeAttackState(GenericStateMachine<T> stateMachine) => this.stateMachine = stateMachine; 
+        public ChargeAttackState(IChargeAttackStateOwner owner) => this.owner = owner;
 
         public void OnStateEnter()
         {
-            timeElapsed = 0f;
-
             PlayerController player = GameService.Instance.PlayerService.GetPlayer();
             targetPosition = player.Position;
             playerLayer = GameService.Instance.PlayerLayer;
 
-            Owner.Agent.enabled = false;
+            owner.Agent.enabled = false;
         }
 
         public void OnStateExit() 
         {
-            Owner.Agent.enabled = true;
+            owner.Agent.enabled = true;
         }
 
         public void Update()
         {
-            timeElapsed += Time.deltaTime;
-            if (timeElapsed >= DASH_DURATION)
-            {
-                stateMachine.ChangeState(State.IDLE);
-                return;
-            }
-
             TryChargeAttack();
-
-            
         }
 
         private void TryChargeAttack()
         {
             Collider[] results = new Collider[1];
-            Owner.Transform.position = Vector3.Lerp(Owner.Transform.position, targetPosition, (Time.deltaTime / DASH_DURATION));
-            Owner.Transform.rotation = Quaternion.LookRotation(targetPosition - Owner.Position);
-            int hitCount = Physics.OverlapSphereNonAlloc(Owner.Position, SPHERE_RADIUS, results, playerLayer);
+            owner.Transform.position = Vector3.Lerp(owner.Transform.position, targetPosition, (Time.deltaTime / DASH_DURATION));
+            owner.Transform.rotation = Quaternion.LookRotation(targetPosition - owner.Transform.position);
+            int hitCount = Physics.OverlapSphereNonAlloc(owner.Transform.position, SPHERE_RADIUS, results, playerLayer);
             if (hitCount <= 0) return;
             if (!results[0].TryGetComponent(out PlayerView player)) return;
             player.Controller.TakeDamage(CHARGE_DAMAGE);
-            stateMachine.ChangeState(State.IDLE);
+            owner.OnChargeAttackStateComplete();
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 *  you can find a dedicated course on Outscal's website.
 *  Link: https://outscal.com/courses
 **/
-namespace StatePattern.Events
+namespace ClassroomIGI.Events
 {
     public class EventService
     {

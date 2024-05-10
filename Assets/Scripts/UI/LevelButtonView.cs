@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace StatePattern.UI
+namespace ClassroomIGI.UI
 {
     public class LevelButtonView : MonoBehaviour
     {

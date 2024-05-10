@@ -5,17 +5,17 @@
 **/
 
 using UnityEngine;
-using StatePattern.Utilities;
-using StatePattern.Enemy;
-using StatePattern.Sound;
-using StatePattern.Level;
-using StatePattern.Player;
+using ClassroomIGI.Utilities;
+using ClassroomIGI.Enemy;
+using ClassroomIGI.Sound;
+using ClassroomIGI.Level;
+using ClassroomIGI.Player;
 using System.Collections.Generic;
-using StatePattern.UI;
-using StatePattern.Events;
-using StatePattern.Coin;
+using ClassroomIGI.UI;
+using ClassroomIGI.Events;
+using ClassroomIGI.Coin;
 
-namespace StatePattern.Main
+namespace ClassroomIGI.Main
 {
     [DefaultExecutionOrder(-1000)]
     public class GameService : GenericMonoSingleton<GameService>

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace StatePattern.Utilities
+namespace ClassroomIGI.Utilities
 {
     [CreateAssetMenu(fileName = "IntDataSO", menuName = "ScriptableObjects/DataSO/IntDataSO")]
     public class IntDataSO : GenericDataSO<int> { }

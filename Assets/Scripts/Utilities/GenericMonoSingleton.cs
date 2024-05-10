@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace StatePattern.Utilities
+namespace ClassroomIGI.Utilities
 {
     public class GenericMonoSingleton<T> : MonoBehaviour where T : GenericMonoSingleton<T>
     {

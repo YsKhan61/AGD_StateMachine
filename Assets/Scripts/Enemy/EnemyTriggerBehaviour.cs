@@ -1,7 +1,7 @@
-﻿using StatePattern.Player;
+﻿using ClassroomIGI.Player;
 using UnityEngine;
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
     public class EnemyTriggerBehaviour : MonoBehaviour
     {

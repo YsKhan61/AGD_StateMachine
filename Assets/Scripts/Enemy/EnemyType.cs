@@ -1,4 +1,4 @@
-﻿namespace StatePattern.Enemy
+﻿namespace ClassroomIGI.Enemy
 {
     public enum EnemyType
     {

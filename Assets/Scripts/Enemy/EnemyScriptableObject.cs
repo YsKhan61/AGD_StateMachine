@@ -1,9 +1,9 @@
-using StatePattern.Enemy.Bullet;
+using ClassroomIGI.Enemy.Bullet;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
     [CreateAssetMenu(fileName = "EnemyScriptableObject", menuName = "ScriptableObjects/EnemyScriptableObject")]
     public class EnemyScriptableObject : ScriptableObject

@@ -1,12 +1,12 @@
-using StatePattern.Level;
-using StatePattern.Main;
-using StatePattern.Sound;
-using StatePattern.UI;
+using ClassroomIGI.Level;
+using ClassroomIGI.Main;
+using ClassroomIGI.Sound;
+using ClassroomIGI.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
     public class EnemyService
     {

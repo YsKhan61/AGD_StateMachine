@@ -1,9 +1,9 @@
-using StatePattern.Main;
+using ClassroomIGI.Main;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace StatePattern.UI
+namespace ClassroomIGI.UI
 {
     public class UIService : MonoBehaviour
     {

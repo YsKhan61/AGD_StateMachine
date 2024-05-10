@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.Animations;
 using UnityEngine.UI;
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
     [System.Serializable]
     public struct EnemyColor

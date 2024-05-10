@@ -1,22 +1,25 @@
-using StatePattern.StateMachine;
-using System.Collections.Generic;
+using ClassroomIGI.StateMachine;
 
-namespace StatePattern.Enemy
+
+namespace ClassroomIGI.Enemy
 {
-    public class OnePunchManStateMachine : GenericStateMachine<OnePunchManController>
+    /// <summary>
+    /// The state machine for the One Punch Man Enemy
+    /// It will create the states for the One Punch
+    /// The states are - Idle, Rotating, Shooting
+    /// </summary>
+    public class OnePunchManStateMachine : BaseStateMachine
     {
-        public OnePunchManStateMachine(OnePunchManController Owner) : base(Owner)
+        public OnePunchManStateMachine(OnePunchManController owner)
         {
-            this.Owner = Owner;
-            CreateStates();
-            SetOwner();
+            CreateStates(owner);
         }
 
-        private void CreateStates()
+        private void CreateStates(OnePunchManController owner)
         {
-            States.Add(StateMachine.State.IDLE, new IdleState<OnePunchManController>(this));
-            States.Add(StateMachine.State.ROTATING, new RotatingState<OnePunchManController>(this));
-            States.Add(StateMachine.State.SHOOTING, new ShootingState<OnePunchManController>(this));
+            States.Add(State.IDLE, new IdleState(owner));
+            States.Add(State.ROTATING, new RotatingState(owner));
+            States.Add(State.SHOOTING, new ShootingState(owner));
         }
     }
 }

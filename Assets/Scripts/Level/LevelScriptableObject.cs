@@ -1,8 +1,8 @@
-﻿using StatePattern.Enemy;
+﻿using ClassroomIGI.Enemy;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace StatePattern.Level
+namespace ClassroomIGI.Level
 {
     [CreateAssetMenu(fileName = "LevelScriptableObject", menuName = "ScriptableObjects/LevelScriptableObject")]
     public class LevelScriptableObject : ScriptableObject

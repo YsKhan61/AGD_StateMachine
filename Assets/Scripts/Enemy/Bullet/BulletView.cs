@@ -1,9 +1,9 @@
-using StatePattern.Player;
+using ClassroomIGI.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace StatePattern.Enemy.Bullet
+namespace ClassroomIGI.Enemy.Bullet
 {
     public class BulletView : MonoBehaviour
     {

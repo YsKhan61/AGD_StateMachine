@@ -1,25 +1,28 @@
 ﻿
-using StatePattern.StateMachine;
+using ClassroomIGI.StateMachine;
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class TitanisStateMachine : GenericStateMachine<TitanisController>
+    /// <summary>
+    /// The state machine for the Titanis Enemy
+    /// It will create the states for the Titanis
+    /// The states are - Idle, Rotating, Roaring, Charge Attack, No Damage, Teleporting
+    /// </summary>
+    public class TitanisStateMachine : BaseStateMachine
     {
-        public TitanisStateMachine(TitanisController Owner) : base(Owner)
+        public TitanisStateMachine(TitanisController owner)
         {
-            this.Owner = Owner;
-            CreateStates();
-            SetOwner();
+            CreateStates(owner);
         }
 
-        private void CreateStates()
+        private void CreateStates(TitanisController owner)
         {
-            States.Add(State.IDLE, new IdleState<TitanisController>(this));
-            States.Add(State.ROTATING, new RotatingState<TitanisController>(this));
-            States.Add(State.ROARING, new RoaringState<TitanisController>(this));
-            States.Add(State.CHARGE_ATTACK, new ChargeAttackState<TitanisController>(this));
-            States.Add(State.NO_DAMAGE, new NoDamageState<TitanisController>(this));
-            States.Add(State.TELEPORTING, new TeleportingState<TitanisController>(this));
+            States.Add(State.IDLE, new IdleState(owner));
+            States.Add(State.ROTATING, new RotatingState(owner));
+            States.Add(State.ROARING, new RoaringState(owner));
+            States.Add(State.CHARGE_ATTACK, new ChargeAttackState(owner));
+            States.Add(State.NO_DAMAGE, new NoDamageState(owner));
+            States.Add(State.TELEPORTING, new TeleportingState(owner));
         }
     }
 }

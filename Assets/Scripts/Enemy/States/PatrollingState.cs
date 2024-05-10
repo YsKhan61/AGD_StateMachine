@@ -1,16 +1,21 @@
-﻿using StatePattern.StateMachine;
+﻿using ClassroomIGI.StateMachine;
 using UnityEngine;
 
-namespace StatePattern.Enemy
+
+namespace ClassroomIGI.Enemy
 {
-    public class PatrollingState<T> : IState where T : EnemyController
+    /// <summary>
+    /// Patrol state of the PatrolStateOwner
+    /// It will patrol between a list of points
+    /// It will check if the target is in view and change the state to the next state
+    /// </summary>
+    public class PatrollingState : IState
     {
-        public EnemyController Owner { get; set; }
-        private GenericStateMachine<T> stateMachine;
+        private IPatrolStateOwner owner;
         private int currentPatrollingIndex = -1;
         private Vector3 destination;
 
-        public PatrollingState(GenericStateMachine<T> stateMachine) => this.stateMachine = stateMachine;
+        public PatrollingState(IPatrolStateOwner owner) => this.owner = owner;
 
         public void OnStateEnter()
         {
@@ -21,35 +26,35 @@ namespace StatePattern.Enemy
 
         public void Update()
         {
-            if (Owner.IsTargetInView())
+            if (owner.IsTargetInView())
             {
-                Owner.OnTargetInView();
+                owner.OnTargetInView();
                 return;
             }
 
-            if(ReachedDestination())
-                stateMachine.ChangeState(State.IDLE);
+            if (ReachedDestination())
+                owner.OnPatrollingStateComplete();
         }
 
         public void OnStateExit() { }
 
         private void SetNextWaypointIndex()
         {
-            if (currentPatrollingIndex == Owner.Data.PatrollingPoints.Count-1)
+            if (currentPatrollingIndex == owner.PatrollingPoints.Count-1)
                 currentPatrollingIndex = 0;
             else
                 currentPatrollingIndex++;
         }
 
-        private Vector3 GetDestination() => Owner.Data.PatrollingPoints[currentPatrollingIndex];
+        private Vector3 GetDestination() => owner.PatrollingPoints[currentPatrollingIndex];
 
         private void MoveTowardsDestination()
         {
-            Owner.Agent.isStopped = false;
-            Owner.Agent.SetDestination(destination);
+            owner.Agent.isStopped = false;
+            owner.Agent.SetDestination(destination);
         }
 
-        private bool ReachedDestination() => Owner.Agent.remainingDistance <= Owner.Agent.stoppingDistance;
+        private bool ReachedDestination() => owner.Agent.remainingDistance <= owner.Agent.stoppingDistance;
 
     }
 }

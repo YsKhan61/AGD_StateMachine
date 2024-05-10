@@ -1,35 +1,39 @@
-using StatePattern.StateMachine;
+using ClassroomIGI.StateMachine;
 using UnityEngine;
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class IdleState<T> : IState where T : EnemyController
+    /// <summary>
+    /// Idle state of the IdleStateOwner
+    /// It will wait for the duration of the IdleDuration and then change the state to the next state
+    /// It will also check if the target is in view and change the state to the next state
+    /// </summary>
+    public class IdleState : IState
     {
-        public EnemyController Owner { get; set; }
-        private GenericStateMachine<T> stateMachine;
+        private IIdleStateOwner owner;
         private float timer;
 
-        public IdleState(GenericStateMachine<T> stateMachine) => this.stateMachine = stateMachine;
+        public IdleState(IIdleStateOwner owner) => this.owner = owner;
 
         public void OnStateEnter() => ResetTimer();
 
         public void Update()
         {
-            if (Owner.IsTargetInView())
+            if (owner.IsTargetInView())
             {
-                Owner.OnTargetInView();
+                owner.OnTargetInView();
                 return;
             }
 
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
-                Owner.OnIdleStateComplete();
+                owner.OnIdleStateComplete();
             }
         }
 
         public void OnStateExit() => timer = 0;
 
-        private void ResetTimer() => timer = Owner.Data.IdleTime;
+        private void ResetTimer() => timer = owner.IdleDuration;
     }
 }

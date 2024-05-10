@@ -1,25 +1,28 @@
-using StatePattern.StateMachine;
+using ClassroomIGI.StateMachine;
 
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class RobotStateMachine : GenericStateMachine<RobotController>
+    /// <summary>
+    /// The state machine for the Robot Enemy
+    /// It will create the states for the Robot
+    /// The states are - Idle, Patrolling, Chasing, Shooting, Teleporting, Cloning
+    /// </summary>
+    public class RobotStateMachine : BaseStateMachine
     {
-        public RobotStateMachine(RobotController Owner) : base(Owner)
+        public RobotStateMachine(RobotController owner)
         {
-            this.Owner = Owner;
-            CreateStates();
-            SetOwner();
+            CreateStates(owner);
         }
 
-        private void CreateStates()
+        private void CreateStates(RobotController owner)
         {
-            States.Add(State.IDLE, new IdleState<RobotController>(this));
-            States.Add(State.PATROLLING, new PatrollingState<RobotController>(this));
-            States.Add(State.CHASING, new ChasingState<RobotController>(this));
-            States.Add(State.SHOOTING, new ShootingState<RobotController>(this));
-            States.Add(State.TELEPORTING, new TeleportingState<RobotController>(this));
-            States.Add(State.CLONING, new CloningState<RobotController>(this));
+            States.Add(State.IDLE, new IdleState(owner));
+            States.Add(State.PATROLLING, new PatrollingState(owner));
+            States.Add(State.CHASING, new ChasingState(owner));
+            States.Add(State.SHOOTING, new ShootingState(owner));
+            States.Add(State.TELEPORTING, new TeleportingState(owner));
+            States.Add(State.CLONING, new CloningState(owner));
         }
     }
 }

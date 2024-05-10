@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace StatePattern.Enemy.Bullet
+namespace ClassroomIGI.Enemy.Bullet
 {
     [CreateAssetMenu(fileName = "BulletScriptableObject", menuName = "ScriptableObjects/BulletScriptableObject")]
     public class BulletScriptableObject : ScriptableObject

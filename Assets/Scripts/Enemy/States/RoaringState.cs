@@ -1,20 +1,25 @@
-﻿using StatePattern.Main;
-using StatePattern.Player;
-using StatePattern.StateMachine;
+﻿using ClassroomIGI.Main;
+using ClassroomIGI.Player;
+using ClassroomIGI.StateMachine;
 using UnityEngine;
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class RoaringState<T> : IState where T : EnemyController
+    /// <summary>
+    /// Roaring state for the IRoaringStateOwner
+    /// It will reduce the player movement speed by half
+    /// It will invoke the event OnEnemyRoar
+    /// It will call OnRoaringStateComplete when the roaring is complete
+    /// </summary>
+    public class RoaringState : IState
     {
         private const int DURATION = 2;             // This state will stay for 2 seconds
 
-        public EnemyController Owner { get; set; }
-        private GenericStateMachine<T> stateMachine;
+        private IRoaringStateOwner owner;
         private PlayerController target;
         private float timeElapsed;      // time elapsed since entered the state.
 
-        public RoaringState(GenericStateMachine<T> stateMachine) => this.stateMachine = stateMachine;
+        public RoaringState(IRoaringStateOwner owner) => this.owner = owner;
 
         public void OnStateEnter()
         {
@@ -34,7 +39,7 @@ namespace StatePattern.Enemy
         {
             if (timeElapsed >= DURATION)
             {
-                Owner.OnRoaringStateComplete();
+                owner.OnRoaringStateComplete();
                 return;
             }
 

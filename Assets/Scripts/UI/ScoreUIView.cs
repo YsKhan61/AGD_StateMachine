@@ -1,7 +1,7 @@
-using StatePattern.Utilities;
+using ClassroomIGI.Utilities;
 using UnityEngine;
 
-namespace StatePattern.UI
+namespace ClassroomIGI.UI
 {
     public class ScoreUIView : MonoBehaviour
     {

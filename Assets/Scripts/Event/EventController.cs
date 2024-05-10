@@ -6,7 +6,7 @@ using System;
  *  Link: https://outscal.com/courses
  **/
 
-namespace StatePattern.Events
+namespace ClassroomIGI.Events
 {
     public class EventController<T>
     {

@@ -1,4 +1,4 @@
-namespace StatePattern.Sound
+namespace ClassroomIGI.Sound
 {
     [System.Serializable]
     public enum SoundType

@@ -1,12 +1,12 @@
-﻿using StatePattern.Enemy;
-using StatePattern.Main;
-using StatePattern.Sound;
-using StatePattern.UI;
+﻿using ClassroomIGI.Enemy;
+using ClassroomIGI.Main;
+using ClassroomIGI.Sound;
+using ClassroomIGI.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace StatePattern.Player
+namespace ClassroomIGI.Player
 {
     public class PlayerController
     {

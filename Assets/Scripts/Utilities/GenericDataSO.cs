@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace StatePattern.Utilities
+namespace ClassroomIGI.Utilities
 {
     public class GenericDataSO<T> : ScriptableObject
     {

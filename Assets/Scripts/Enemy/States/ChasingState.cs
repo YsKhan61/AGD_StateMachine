@@ -1,17 +1,21 @@
-﻿using StatePattern.Main;
-using StatePattern.Player;
-using StatePattern.StateMachine;
+﻿using ClassroomIGI.Main;
+using ClassroomIGI.Player;
+using ClassroomIGI.StateMachine;
 
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class ChasingState<T> : IState where T : EnemyController
+    /// <summary>
+    /// Chase state of the ChasingStateOwner
+    /// It will chase the target until the target is not in view or the target is reached
+    /// It will check if the target is in view and change the state to the next state
+    /// </summary>
+    public class ChasingState : IState
     {
-        public EnemyController Owner { get; set; }
-        private GenericStateMachine<T> stateMachine;
+        private IChasingStateOwner owner;
         private PlayerController target;
 
-        public ChasingState(GenericStateMachine<T> stateMachine) => this.stateMachine = stateMachine;
+        public ChasingState(IChasingStateOwner owner) => this.owner = owner;
 
         public void OnStateEnter()
         {
@@ -21,9 +25,9 @@ namespace StatePattern.Enemy
 
         public void Update()
         {
-            if (!Owner.IsTargetInView())
+            if (!owner.IsTargetInView())
             {
-                Owner.OnTargetNotInView();
+                owner.OnTargetNotInView();
                 return;
             }
 
@@ -31,25 +35,24 @@ namespace StatePattern.Enemy
             if (ReachedTarget())
             {
                 ResetPath();
-                stateMachine.ChangeState(State.SHOOTING);
+                owner.OnChasingStateComplete();
             }
         }
 
         public void OnStateExit() => target = null;
 
-
         private void SetTarget() => target = GameService.Instance.PlayerService.GetPlayer();
 
-        private void SetStoppingDistance() => Owner.Agent.stoppingDistance = Owner.Data.PlayerStoppingDistance;
+        private void SetStoppingDistance() => owner.Agent.stoppingDistance = owner.PlayerStoppingDistance;
 
-        private bool MoveTowardsTarget() => Owner.Agent.SetDestination(target.Position);
+        private bool MoveTowardsTarget() => owner.Agent.SetDestination(target.Position);
 
-        private bool ReachedTarget() => Owner.Agent.remainingDistance <= Owner.Agent.stoppingDistance;
+        private bool ReachedTarget() => owner.Agent.remainingDistance <= owner.Agent.stoppingDistance;
 
         private void ResetPath()
         {
-            Owner.Agent.isStopped = true;
-            Owner.Agent.ResetPath();
+            owner.Agent.isStopped = true;
+            owner.Agent.ResetPath();
         }
     }
 }

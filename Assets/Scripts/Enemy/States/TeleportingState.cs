@@ -1,38 +1,40 @@
-﻿using StatePattern.Enemy;
-using StatePattern.StateMachine;
-using System.Collections;
+﻿using ClassroomIGI.StateMachine;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace StatePattern.Enemy
+namespace ClassroomIGI.Enemy
 {
-    public class TeleportingState<T> : IState where T : EnemyController
+    /// <summary>
+    /// Teleporting state for the ITeleportingStateOwner
+    /// It will teleport to a random position
+    /// It will call OnTeleportingStateComplete when the teleport is complete
+    /// </summary>
+    public class TeleportingState : IState
     {
-        public EnemyController Owner { get; set; }
-        private GenericStateMachine<T> stateMachine;
+        private ITeleportingStateOwner owner;
 
-        public TeleportingState(GenericStateMachine<T> stateMachine) => this.stateMachine = stateMachine;
+        public TeleportingState(ITeleportingStateOwner owner) => this.owner = owner;
 
         public void OnStateEnter()
         {
             TeleportToRandomPosition();
-            Owner.OnTeleportingStateComplete();
+            owner.OnTeleportingStateComplete();
         }
 
         public void Update() { }
 
         public void OnStateExit() { }
 
-        private void TeleportToRandomPosition() => Owner.Agent.Warp(GetRandomNavMeshPoint());
+        private void TeleportToRandomPosition() => owner.Agent.Warp(GetRandomNavMeshPoint());
 
         private Vector3 GetRandomNavMeshPoint()
         {
-            Vector3 randomDirection = Random.insideUnitSphere * 5f + Owner.Position;
+            Vector3 randomDirection = Random.insideUnitSphere * 5f + owner.Position;
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomDirection, out hit, 5f, NavMesh.AllAreas))
                 return hit.position;
             else
-                return Owner.Data.SpawnPosition;
+                return owner.SpawnPosition;
         }
     }
 }

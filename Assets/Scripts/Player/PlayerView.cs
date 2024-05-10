@@ -1,8 +1,8 @@
-﻿using StatePattern.Enemy;
+﻿using ClassroomIGI.Enemy;
 using UnityEngine;
 
 
-namespace StatePattern.Player
+namespace ClassroomIGI.Player
 {
     public class PlayerView : MonoBehaviour
     {

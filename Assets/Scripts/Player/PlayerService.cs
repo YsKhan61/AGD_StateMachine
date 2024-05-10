@@ -1,6 +1,6 @@
-using StatePattern.Main;
+using ClassroomIGI.Main;
 
-namespace StatePattern.Player
+namespace ClassroomIGI.Player
 {
     public class PlayerService
     {
