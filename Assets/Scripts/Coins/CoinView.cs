@@ -47,6 +47,7 @@ namespace StatePattern.Coin
                 yield return null;
             }
 
+            GameService.Instance.SoundService.PlaySoundEffects(Sound.SoundType.COIN_COLLECT);
             Destroy(gameObject);
         }
     }

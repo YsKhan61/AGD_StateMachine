@@ -13,6 +13,7 @@ namespace StatePattern.Sound
         ENEMY_CLONE,
         ENEMY_DEATH,
         GAME_WON,
-        GAME_LOST
+        GAME_LOST,
+        COIN_COLLECT
     }
 }
